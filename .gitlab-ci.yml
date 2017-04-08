@@ -1,0 +1,131 @@
+stages:
+    - test
+    - release
+
+cache:
+  paths:
+    - node_modules/
+    - ${HOME}/.cache/yarn
+    - ${HOME}/.npm
+
+.common: &common
+  except:
+    - tags
+  stage: test
+
+.node_4: &node_4
+  image: node:4
+
+.node_6: &node_6
+  image: node:6
+
+.node_next: &node_next
+  image: node:latest
+
+.yarn: &yarn
+  script:
+    - yarn install && yarn test && $(yarn bin)/codecov
+
+.npm: &npm
+  script:
+    - npm update && npm test && $(npm bin)/codecov
+
+.npm_2: &npm_2
+  <<: [*npm]
+  before_script:
+    - npm prune
+    - npm install --global npm@2
+
+.npm_3: &npm_3
+  <<: [*npm]
+  before_script:
+    - npm prune
+    - npm install --global npm@3
+
+.npm_4: &npm_4
+  <<: [*npm]
+  before_script:
+    - npm prune
+    - npm install --global npm@4
+
+.npm_next: &npm_next
+  <<: [*npm]
+  before_script:
+    - npm prune
+    - npm install --global npm@next
+
+node_4_npm_2:
+  <<: [*common, *node_4, *npm_2]
+
+node_4_npm_3:
+  <<: [*common, *node_4, *npm_3]
+
+node_4_npm_4:
+  <<: [*common, *node_4, *npm_4]
+
+node_4_npm_next:
+  <<: [*common, *node_4, *npm_next]
+  allow_failure: true
+
+node_4_yarn_latest:
+  <<: [*common, *node_4, *yarn]
+  allow_failure: true
+
+node_6_npm_2:
+  <<: [*common, *node_6, *npm_2]
+  allow_failure: true
+
+node_6_npm_3:
+  <<: [*common, *node_6, *npm_3]
+  allow_failure: true
+
+node_6_npm_4:
+  <<: [*common, *node_6, *npm_4]
+  allow_failure: true
+
+node_6_npm_next:
+  <<: [*common, *node_6, *npm_next]
+  allow_failure: true
+
+node_6_yarn_latest:
+  <<: [*common, *node_6, *yarn]
+  allow_failure: true
+
+node_next_npm_2:
+  <<: [*common, *node_next, *npm_2]
+  allow_failure: true
+
+node_next_npm_3:
+  <<: [*common, *node_next, *npm_3]
+  allow_failure: true
+
+node_next_npm_4:
+  <<: [*common, *node_next, *npm_4]
+  allow_failure: true
+
+node_next_npm_next:
+  <<: [*common, *node_next, *npm_next]
+  allow_failure: true
+
+node_next_yarn_latest:
+  <<: [*common, *node_next, *yarn]
+  allow_failure: true
+
+release:
+  <<: [*node_6]
+  before_script:
+    - yarn install
+  only:
+    - master@hyper-expanse/npm-publish-git-tag
+  script:
+    - $(yarn bin)/semantic-release-gitlab
+  stage: release
+
+publish:
+  before_script:
+    - yarn install
+  only:
+    - tags
+		- triggers
+  script:
+    - $(yarn bin)/npm-publish-git-tag

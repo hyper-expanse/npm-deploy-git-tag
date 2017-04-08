@@ -1,0 +1,54 @@
+{
+  "author": {
+    "name": "Hutson Betts",
+    "email": "hutson@hyper-expanse.net",
+    "url": "https://gitlab.com/hutson"
+  },
+  "bin": {},
+  "bugs": "https://gitlab.com/hyper-expanse/npm-publish-git-tag/issues",
+  "description": "Publish a package to an `npm`-compatible registry using the latest semantic version git tag of that package.",
+  "engines": {
+    "node": "^6.9.0 || ^4.2.0",
+    "npm": "^4.0.0 || ^3.0.0 || ^2.1.9"
+  },
+  "files": [
+    "src/"
+  ],
+  "homepage": "https://gitlab.com/hyper-expanse/npm-publish-git-tag#readme",
+  "keywords": [
+    "npm",
+    "publish",
+    "git",
+    "tag"
+  ],
+  "license": "Apache-2.0",
+  "main": "src/index.js",
+  "name": "npm-publish-git-tag",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/hyper-expanse/npm-publish-git-tag.git"
+  },
+  "scripts": {
+    "test": "eslint src/ && nyc --all --cache --include=src/ --exclude=src/cli.js --exclude=src/**/*.spec.js --reporter=lcov --reporter=text mocha --check-leaks --full-trace --globals __coverage__ --inline-diffs --no-exit --recursive --reporter=progress --retries 1 src/**/*.spec.js"
+  },
+  "version": "1.0.0",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "ggit": "^1.13.7",
+    "modify-pkg-up": "^1.0.1",
+    "npm-utils": "^1.12.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "codecov": "^2.1.0",
+    "eslint": "^3.19.0",
+    "eslint-config-xo-space": "^0.16.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.2.0",
+    "proxyquire": "^1.7.11",
+    "shelljs": "^0.7.7",
+    "sinon": "^2.1.0",
+    "tmp": "^0.0.31"
+  }
+}
