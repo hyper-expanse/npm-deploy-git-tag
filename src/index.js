@@ -1,15 +1,16 @@
 'use strict';
 
-var tags = require(`ggit`).tags;
-var modifyPkg = require(`modify-pkg-up`);
-var npm = require(`npm-utils`);
+const tags = require(`ggit`).tags;
+const npm = require(`npm-utils`);
+const readPkg = require(`read-pkg`);
+const writePkg = require(`write-pkg`);
 
 module.exports = publishGitTag;
 
 function publishGitTag() {
   return tags()
     .then(tags => tags[tags.length - 1])
-    .then(latestTag => modifyPkg(pkg => Object.assign(pkg, {version: latestTag.tag})))
+    .then(gitTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: gitTag.tag}))))
     .then(npm.setAuthToken)
     .then(npm.publish)
   ;

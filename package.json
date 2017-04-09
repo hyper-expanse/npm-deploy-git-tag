@@ -35,8 +35,9 @@
   "dependencies": {
     "commander": "^2.9.0",
     "ggit": "^1.13.7",
-    "modify-pkg-up": "^1.0.1",
-    "npm-utils": "^1.12.0"
+    "npm-utils": "^1.12.0",
+    "read-pkg": "^2.0.0",
+    "write-pkg": "^2.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

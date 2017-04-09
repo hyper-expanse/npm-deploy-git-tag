@@ -28,7 +28,7 @@ describe(`npm-publish-git-tag`, function () {
     process.chdir(this.tmpDir.name);
 
     // Empty `package.json` file for our publish pipeline to write a version into.
-    fs.writeFileSync(`package.json`, `{ "name": "test" }`);
+    fs.writeFileSync(`package.json`, `{ "name": "test", "version": "1.0.0" }`);
 
     // Do not console print output from tools invoked by `shelljs`.
     shell.config.silent = true;
@@ -75,6 +75,7 @@ describe(`npm-publish-git-tag`, function () {
     return expect(this.publishGitTag()).to.be.fulfilled
       .then(function () {
         const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+        expect(packageContent.name).to.equal(`test`);
         expect(packageContent.version).to.equal(`1.2.1`);
       });
   });
