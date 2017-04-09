@@ -122,6 +122,7 @@ release:
   stage: release
 
 publish:
+  <<: [*node_6]
   before_script:
     - yarn install
   only:
