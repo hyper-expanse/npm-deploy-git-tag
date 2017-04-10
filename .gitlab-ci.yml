@@ -24,7 +24,7 @@ cache:
 
 .yarn: &yarn
   script:
-    - yarn install && yarn test && $(yarn bin)/codecov
+    - yarn install --ignore-engines && yarn test && $(yarn bin)/codecov
 
 .npm: &npm
   script:
