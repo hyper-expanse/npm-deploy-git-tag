@@ -21,6 +21,9 @@ const it = mocha.it;
 
 describe(`npm-publish-git-tag`, function () {
   before(function () {
+    // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
+    this.timeout(20000);
+
     // Switch into a temporary directory to isolate the behavior of this tool from
     // the rest of the environment.
     this.cwd = process.cwd();
@@ -36,6 +39,8 @@ describe(`npm-publish-git-tag`, function () {
     // Create git repository and then generate two commits, tagging each commit with a unique
     // semantic version valid tag. The second tag should be the one pulled by the pipeline.
     shell.exec(`git init`);
+    shell.exec(`git config user.email "you@example.com"`);
+    shell.exec(`git config user.name "Your Name"`);
     shell.exec(`git commit --allow-empty -m "init" --no-gpg-sign`);
     shell.exec(`git tag 1.0.1`);
     shell.exec(`git commit --allow-empty -m "change" --no-gpg-sign`);
