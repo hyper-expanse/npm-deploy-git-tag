@@ -125,4 +125,4 @@ publish:
     - tags
     - triggers
   script:
-    - $(yarn bin)/npm-publish-git-tag
+    - node src/cli.js
