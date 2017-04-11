@@ -24,11 +24,22 @@ cache:
 
 .yarn: &yarn
   script:
+    - source ${HOME}/.bashrc
     - yarn install --ignore-engines && yarn test && $(yarn bin)/codecov
 
 .npm: &npm
   script:
     - npm update && npm test && $(npm bin)/codecov
+
+.yarn_latest: &yarn_latest
+  <<: [*yarn]
+  before_script:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+
+.yarn_latest_rc: &yarn_latest_rc
+  << [*yarn]
+  before_script:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --rc
 
 .npm_2: &npm_2
   <<: [*npm]
@@ -67,7 +78,10 @@ node_4_npm_next:
   <<: [*common, *node_4, *npm_next]
 
 node_4_yarn_latest:
-  <<: [*common, *node_4, *yarn]
+  <<: [*common, *node_4, *yarn_latest]
+
+node_4_yarn_latest_rc:
+  <<: [*common, *node_4, *yarn_latest_rc]
 
 node_6_npm_2:
   <<: [*common, *node_6, *npm_2]
@@ -86,7 +100,10 @@ node_6_npm_next:
   allow_failure: true
 
 node_6_yarn_latest:
-  <<: [*common, *node_6, *yarn]
+  <<: [*common, *node_6, *yarn_latest]
+
+node_6_yarn_latest_rc:
+  <<: [*common, *node_6, *yarn_latest_rc]
 
 node_next_npm_2:
   <<: [*common, *node_next, *npm_2]
@@ -105,7 +122,10 @@ node_next_npm_next:
   allow_failure: true
 
 node_next_yarn_latest:
-  <<: [*common, *node_next, *yarn]
+  <<: [*common, *node_next, *yarn_latest]
+
+node_next_yarn_latest_rc:
+  <<: [*common, *node_next, *yarn_latest_rc]
 
 release:
   <<: [*node_6]
