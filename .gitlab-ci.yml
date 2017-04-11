@@ -37,7 +37,7 @@ cache:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
 
 .yarn_latest_rc: &yarn_latest_rc
-  << [*yarn]
+  <<: [*yarn]
   before_script:
     - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --rc
 
