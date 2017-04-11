@@ -24,7 +24,7 @@ This idea, however, is not new. `npm-publish-git-tag` was heavily inspired by th
 
 * [&#x2713;] Get latest semantic version tag from current project using [ggit](https://www.npmjs.com/package/ggit).
 * [&#x2713;] Write the version number to the project's `package.json` file using [modify-pkg-up](https://www.npmjs.com/package/modify-pkg-up)
-* Publish package to an `npm`-compatible registry with [npm-utils](https://www.npmjs.com/package/npm-utils).
+* [&#x2713;] Publish package to an `npm`-compatible registry with [npm-utils](https://www.npmjs.com/package/npm-utils).
 
 ## Installation
 
