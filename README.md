@@ -31,12 +31,12 @@ This idea, however, is not new. `npm-publish-git-tag` was heavily inspired by th
 To install the `npm-publish-git-tag` tool for use in your project's release process, please run the following command:
 
 ```bash
-npm install --save-dev npm-publish-git-tag
+yarn add --dev npm-publish-git-tag
 ```
 
 ## Usage
 
-Once installed `npm-publish-git-tag` may be invoked by executing the CLI tool exported by the package. Installed into your project's `node_modules` `bin` directory is the `npm-publish-git-tag` executable. It can be invoked directly by calling `$(npm bin)/npm-publish-git-tag` (`$(yarn bin)` may also be used in place of `npm`). To learn how `npm-publish-git-tag` can be used as part of your project's release process please see the _Continuous Integration and Delivery (CID) Setup_ section below.
+Once installed `npm-publish-git-tag` may be invoked by executing the CLI tool exported by the package. Installed into your project's `node_modules` `bin` directory is the `npm-publish-git-tag` executable. It can be invoked directly by calling `$(yarn bin)/npm-publish-git-tag` (`$(npm bin)` may also be used in place of `yarn`). To learn how `npm-publish-git-tag` can be used as part of your project's release process please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
 First step of `npm-publish-git-tag` is to get the latest git tag for your project and treat it as a semantically valid version number. With the version number in hand, we write the version number to the `version` field within your project's `package.json` file. Writing the version number to your project's `package.json` allows us to publish your package regardless of how you tag, or otherwise, update, your project's version.
 
@@ -54,26 +54,27 @@ For `npm-publish-git-tag` to publish packages to the npm registry an environment
 
 ### Continuous Integration and Delivery (CID) Setup
 
-Since `npm-publish-git-tag` relies solely on an environment variable, and a package published on the public npm registry, `npm-publish-git-tag` is compatible with all continuous integration platforms; such as _GitLab CI_, _Travis CI_, etc.
+Since `npm-publish-git-tag` relies solely on an environment variable, and a package published on the public npm registry, `npm-publish-git-tag` is compatible with all Git-based continuous integration platforms; such as _GitLab CI_, _Travis CI_, etc.
 
 However, given the enormous number of CI providers available we will only cover the CI system built into GitLab.
 
-Configuring a GitLab CI job is facilitated through a `.gitlab-ci.yml` configuration file. To publish a package using `npm-publish-git-tag` you will need to create a dedicated job that triggers on a semantic version tag getting pushed to your repository.
+Configuring a GitLab CI job is facilitated through a `.gitlab-ci.yml` configuration file. To publish a package using `npm-publish-git-tag` you will need to create a dedicated job that triggers on a git tag pushed to your repository.
 
-In GitLab CI that is possible by creating a job called `publish`, though any name will work. Within the `publish` job we install your project's dependencies, run any build required to transpile your code, and finally, call `npm-publish-git-tag`.
+You can do this in GitLab CI by creating a job called `publish`, though any name will work. Within the `publish` job install your project's dependencies, run any build required to transpile your code, and finally, call `npm-publish-git-tag`.
 
 You can see a snippet of a `.gitlab-ci.yml` file with this setup below:
 
 ```yaml
 publish:
 	before_script:
-		- npm install
+		- yarn install
+	image: node:6
 	only:
 		- tags
 		- triggers
 	script:
-		- # run your project's build
-		- $(npm bin)/npm-publish-git-tag
+		- # build step, if any
+		- $(yarn bin)/npm-publish-git-tag
 ```
 
 `npm-publish-git-tag` works well with projects like [semantic-release-gitlab](https://www.npmjs.com/package/semantic-release-gitlab). `semantic-release-gitlab` creates a git tag based on unreleased commits, and pushes that tag to GitLab. Assuming the setup above, once the tag has been pushed to GitLab, your project's `publish` job would execute, and `npm-publish-git-tag` would publish your package to your desired `npm`-compatible registry.
