@@ -4,7 +4,7 @@
     "email": "hutson@hyper-expanse.net",
     "url": "https://gitlab.com/hutson"
   },
-  "bin": {},
+  "bin": "./src/cli.js",
   "bugs": "https://gitlab.com/hyper-expanse/npm-publish-git-tag/issues",
   "description": "Publish a package to an `npm`-compatible registry using the latest semantic version git tag of that package.",
   "engines": {
