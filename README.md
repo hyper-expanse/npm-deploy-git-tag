@@ -23,7 +23,7 @@ This idea, however, is not new. `npm-publish-git-tag` was heavily inspired by th
 ## Features
 
 * [&#x2713;] Get latest semantic version tag from current project using [ggit](https://www.npmjs.com/package/ggit).
-* [&#x2713;] Write the version number to the project's `package.json` file using [modify-pkg-up](https://www.npmjs.com/package/modify-pkg-up)
+* [&#x2713;] Write the version number to the project's `package.json` file using [modify-pkg](https://www.npmjs.com/package/write-pkg)
 * [&#x2713;] Publish package to an `npm`-compatible registry with [npm-utils](https://www.npmjs.com/package/npm-utils).
 
 ## Installation
@@ -34,9 +34,15 @@ To install the `npm-publish-git-tag` tool for use in your project's release proc
 yarn add --dev npm-publish-git-tag
 ```
 
+If you are using `npm`, then:
+
+```bash
+npm install --save-dev npm-publish-git-tag
+```
+
 ## Usage
 
-Once installed `npm-publish-git-tag` may be invoked by executing the CLI tool exported by the package. Installed into your project's `node_modules` `bin` directory is the `npm-publish-git-tag` executable. It can be invoked directly by calling `$(yarn bin)/npm-publish-git-tag` (`$(npm bin)` may also be used in place of `yarn`). To learn how `npm-publish-git-tag` can be used as part of your project's release process please see the _Continuous Integration and Delivery (CID) Setup_ section below.
+Once installed `npm-publish-git-tag` may be invoked by executing the CLI tool exported by its package. Installed into your project's `node_modules` binary directory is the `npm-publish-git-tag` executable. It can be invoked directly by calling `$(yarn bin)/npm-publish-git-tag` (`$(npm bin)` if using the `npm` package manager). To learn how `npm-publish-git-tag` can be used as part of your project's release process please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
 First step of `npm-publish-git-tag` is to get the latest git tag for your project and treat it as a semantically valid version number. With the version number in hand, we write the version number to the `version` field within your project's `package.json` file. Writing the version number to your project's `package.json` allows us to publish your package regardless of how you tag, or otherwise, update, your project's version.
 
@@ -46,7 +52,7 @@ Lastly, `npm-publish-git-tag` publishes your package to either the authoritative
 
 ### Required Environment Settings
 
-For `npm-publish-git-tag` to publish packages to the npm registry an environment variable must be setup within your continuous integration job.
+For `npm-publish-git-tag` to publish a package to an `npm`-compatible registry an environment variable must be setup within your continuous integration job.
 
 | **Required Token** | **Environment Variable Name** |
 | ------------------ | ----------------------------- |
@@ -54,15 +60,15 @@ For `npm-publish-git-tag` to publish packages to the npm registry an environment
 
 ### Continuous Integration and Delivery (CID) Setup
 
-Since `npm-publish-git-tag` relies solely on an environment variable, and a package published on the public npm registry, `npm-publish-git-tag` is compatible with all Git-based continuous integration platforms; such as _GitLab CI_, _Travis CI_, etc.
+Since `npm-publish-git-tag` relies on an npm authentication token, and a package published to the public npm registry, `npm-publish-git-tag` is compatible with all Git-based continuous integration platforms; such as _GitLab CI_, _Travis CI_, etc.
 
-However, given the enormous number of CI providers available we will only cover the CI system built into GitLab.
+However, given the enormous number of CI providers available, we will only cover the CI system built into GitLab.
 
-Configuring a GitLab CI job is facilitated through a `.gitlab-ci.yml` configuration file. To publish a package using `npm-publish-git-tag` you will need to create a dedicated job that triggers on a git tag pushed to your repository.
+Configuring a GitLab CI job is facilitated through a `.gitlab-ci.yml` configuration file kept at the root of your project. To publish a package using `npm-publish-git-tag` you will need to create a dedicated job that triggers on a git tag pushed to your repository.
 
-You can do this in GitLab CI by creating a job called `publish`, though any name will work. Within the `publish` job install your project's dependencies, run any build required to transpile your code, and finally, call `npm-publish-git-tag`.
+That can be done with GitLab CI by creating a job called `publish`, though any name will work. Within the `publish` job install your project's dependencies, run any build required to transpile your code, and finally, call `npm-publish-git-tag`.
 
-You can see a snippet of a `.gitlab-ci.yml` file with this setup below:
+You can see a snippet of a `.gitlab-ci.yml` file below with this setup:
 
 ```yaml
 publish:
@@ -77,7 +83,7 @@ publish:
 		- $(yarn bin)/npm-publish-git-tag
 ```
 
-`npm-publish-git-tag` works well with projects like [semantic-release-gitlab](https://www.npmjs.com/package/semantic-release-gitlab). `semantic-release-gitlab` creates a git tag based on unreleased commits, and pushes that tag to GitLab. Assuming the setup above, once the tag has been pushed to GitLab, your project's `publish` job would execute, and `npm-publish-git-tag` would publish your package to your desired `npm`-compatible registry.
+`npm-publish-git-tag` works well with tools like [semantic-release-gitlab](https://www.npmjs.com/package/semantic-release-gitlab). `semantic-release-gitlab` creates a git tag based on unreleased commits and pushes that tag to GitLab. Assuming the setup above, once the tag has been pushed to GitLab, your project's `publish` job would execute, and `npm-publish-git-tag` would publish your package to your desired `npm`-compatible registry.
 
 Full documentation for GitLab CI is available on the [GitLab CI](http://docs.gitlab.com/ce/ci/yaml/README.html) website.
 
@@ -85,31 +91,31 @@ You may also take a look at our [.gitlab-ci.yml](https://gitlab.com/hyper-expans
 
 ## Publishing Elsewhere Besides Public npm Registry
 
-It's possible to publish your package to any npm registry, not just the official public registry. When publishing a package `npm-publish-git-tag` uses the built-in `publish` command of npm. Any features supported by `npm publish` are available. For example, you may specify, on a per-project basis, which registry to publish your package to by setting the [publishConfig](https://docs.npmjs.com/misc/registry#i-dont-want-my-package-published-in-the-official-registry-its-private) property in your project's `package.json` file.
+It's possible to publish your package to any `npm`-compatible registry, not just the official public registry. When publishing a package `npm-publish-git-tag` uses the built-in `publish` command of npm. Any features supported by `npm publish` are available. For example, you may specify, on a per-project basis, which registry to publish your package to by setting the [publishConfig](https://docs.npmjs.com/misc/registry#i-dont-want-my-package-published-in-the-official-registry-its-private) property in your project's `package.json` file.
 
 Alternative registries may include on-premise solutions such as [Artifactory](https://www.jfrog.com/artifactory/) and [npm enterprise](https://www.npmjs.com/enterprise).
 
 ## Debugging
 
-To assist users of the `npm-publish-git-tag` plugin with debugging the behavior of this module we use the [debug](https://www.npmjs.com/package/debug) utility package to print information about the release process to the console. To enable debug message printing, the environment variable `DEBUG`, which is the variable used by the `debug` package, must be set to a value configured by the package containing the debug messages to be printed.
+To assist users of `npm-publish-git-tag` with debugging the behavior of this module we use the [debug](https://www.npmjs.com/package/debug) utility package to print information about the release process to the console. To enable debug message printing, the environment variable `DEBUG`, which is the variable used by the `debug` package, must be set to a value configured by the package containing the debug messages to be printed.
 
-To print debug messages on a unix system set the environment variable `DEBUG` with the name of this package prior to executing a tool that invokes this plugin:
+To print debug messages on a unix system set the environment variable `DEBUG` with the name of this package prior to executing `npm-publish-git-tag`:
 
 ```bash
-DEBUG=npm-publish-git-tag [RELEASE TOOL]
+DEBUG=npm-publish-git-tag npm-publish-git-tag
 ```
 
 On the Windows command line you may do:
 
 ```bash
 set DEBUG=npm-publish-git-tag
-[RELEASE TOOL]
+npm-publish-git-tag
 ```
 
-`npm-publish-git-tag` uses `debug` to print information to the console. You can instruct `npm-publish-git-tag` to print its debugging information by using `npm-publish-git-tag` as the value of the `DEBUG` environment variable.
+`npm-publish-git-tag` uses numerous other npm packages and many of those use the `debug` utility package as well. For example, to print the debug messages from [npm-utils](https://www.npmjs.com/package/npm-utils) you may assign `npm-publish-git-tag` and `npm-utils` to the `DEBUG` environment variable like so:
 
 ```bash
-DEBUG=npm-publish-git-tag npm-publish-git-tag
+DEBUG=npm-publish-git-tag,npm-utils npm-publish-git-tag
 ```
 
 You may also print debug messages for the underlying HTTP request library, [request](https://www.npmjs.com/package/request), by setting the `NODE_DEBUG` environment variable to `request`, as [shown in their documentation](https://www.npmjs.com/package/request#debugging).
