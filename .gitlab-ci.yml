@@ -145,4 +145,4 @@ publish:
     - tags
     - triggers
   script:
-    - node src/cli.js
+    - node ./src/cli.js
