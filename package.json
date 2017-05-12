@@ -6,7 +6,7 @@
   },
   "bin": "./src/cli.js",
   "bugs": "https://gitlab.com/hyper-expanse/npm-publish-git-tag/issues",
-  "description": "Publish a package to an `npm`-compatible registry using the latest semantic version git tag of that package.",
+  "description": "Publish to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
     "node": "^6.9.0 || ^4.2.0",
     "npm": "^4.0.0 || ^3.0.0 || ^2.1.9"
