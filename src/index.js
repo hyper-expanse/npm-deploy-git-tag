@@ -1,6 +1,7 @@
 'use strict';
 
-const tags = require(`ggit`).tags;
+const Bluebird = require(`bluebird`);
+const latestSemverTag = Bluebird.promisify(require(`git-latest-semver-tag`));
 const npm = require(`npm-utils`);
 const readPkg = require(`read-pkg`);
 const writePkg = require(`write-pkg`);
@@ -8,9 +9,8 @@ const writePkg = require(`write-pkg`);
 module.exports = publishGitTag;
 
 function publishGitTag() {
-  return tags()
-    .then(tags => tags[tags.length - 1])
-    .then(gitTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: gitTag.tag}))))
+  return latestSemverTag()
+    .then(latestTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: latestTag}))))
     .then(npm.setAuthToken)
     .then(npm.publish)
   ;
