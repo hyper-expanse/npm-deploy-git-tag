@@ -9,6 +9,8 @@ const publishGitTag = require(`./index`);
 program
   .description(pkg.description)
   .version(pkg.version)
+  .option('-a, --access <access>', 'published as [public] or [restricted]', /^(public|restricted)$/i, 'restricted')
+  .option('-s, --skip-token', 'skip authentication with a token')
   .parse(process.argv)
 ;
 

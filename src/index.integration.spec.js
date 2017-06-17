@@ -63,7 +63,8 @@ describe(`npm-publish-git-tag`, function () {
     // behavior of `npm.publish`.
     const publishStub = sinon.stub();
     publishStub.rejects(); // Default case.
-    publishStub.withArgs(undefined).resolves();
+    publishStub.withArgs({access: 'public'}).resolves();
+    publishStub.withArgs({access: 'restricted'}).resolves();
 
     // Create an instance of `publishGitTag` with the `npm-utils` methods mocked out to
     // prevent interaction with directories and processes outside of this test.
