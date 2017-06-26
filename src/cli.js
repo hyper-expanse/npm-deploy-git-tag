@@ -12,4 +12,9 @@ program
   .parse(process.argv)
 ;
 
-publishGitTag();
+publishGitTag()
+  .catch(error => {
+    console.error(`npm-publish-git-tag failed for the following reason - ${error}`);
+    process.exit(1);
+  })
+;
