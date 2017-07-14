@@ -1874,7 +1874,7 @@ load-json-file@^2.0.0:
 
 "local-or-home-npmrc@github:bahmutov/local-or-home-npmrc":
   version "0.0.0-development"
-  resolved "https://codeload.github.com/bahmutov/local-or-home-npmrc/tar.gz/7b9c4e239457b0810a98b84707730618e75c9ee2"
+  resolved "https://codeload.github.com/bahmutov/local-or-home-npmrc/tar.gz/492179753b1250f4d7895137f1398a390eed6f10"
   dependencies:
     pkg-dir "^2.0.0"
     user-home "^2.0.0"
@@ -2873,8 +2873,8 @@ silent-npm-registry-client@0.0.0:
     xtend "~2.0.6"
 
 sinon@^2.1.0:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-2.3.7.tgz#1451614a2eaab05bb4d876c1335cd40132ec5127"
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-2.3.8.tgz#31de06fed8fba3a671e576dd96d0a5863796f25c"
   dependencies:
     diff "^3.1.0"
     formatio "1.2.0"
@@ -3285,13 +3285,9 @@ window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
-wordwrap@0.0.2:
+wordwrap@0.0.2, wordwrap@~0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
-
-wordwrap@~0.0.2:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 wordwrap@~1.0.0:
   version "1.0.0"
