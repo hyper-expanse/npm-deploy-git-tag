@@ -52,7 +52,7 @@ $(npm bin)/npm-publish-git-tag
 
 To learn how `npm-publish-git-tag` can be used to automatically publish your project when new changes are pushed to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
-## CLI Options
+### CLI Options
 
 The following CLI options are supported and can be passed to `npm-publish-git-tag`:
 
