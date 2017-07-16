@@ -42,6 +42,9 @@ describe(`npm-publish-git-tag`, function () {
     // Do not console print output from tools invoked by `shelljs`.
     shell.config.silent = true;
 
+    // Default set of options passed to `npm-publish-git-tag`.
+    this.defaultOptions = {access: 'restricted'};
+
     // Create git repository and then generate two commits, tagging each commit with a unique
     // semantic version valid tag. The second tag should be the one pulled by the pipeline.
     shell.exec(`git init`);
@@ -63,8 +66,7 @@ describe(`npm-publish-git-tag`, function () {
     // behavior of `npm.publish`.
     const publishStub = sinon.stub();
     publishStub.rejects(); // Default case.
-    publishStub.withArgs({access: 'public'}).resolves();
-    publishStub.withArgs({access: 'restricted'}).resolves();
+    publishStub.withArgs(this.defaultOptions).resolves();
 
     // Create an instance of `publishGitTag` with the `npm-utils` methods mocked out to
     // prevent interaction with directories and processes outside of this test.
@@ -88,7 +90,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`writes last git tag to 'package.json'`, function () {
-      return expect(this.publishGitTag()).to.be.fulfilled
+      return expect(this.publishGitTag(this.defaultOptions)).to.be.fulfilled
         .then(function () {
           const packageContent = JSON.parse(fs.readFileSync(`package.json`));
           expect(packageContent.name).to.equal(`test`);
@@ -128,7 +130,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`should publish patch version using latest tag on the current branch`, function () {
-      return expect(this.publishGitTag()).to.be.fulfilled
+      return expect(this.publishGitTag(this.defaultOptions)).to.be.fulfilled
         .then(function () {
           const packageContent = JSON.parse(fs.readFileSync(`package.json`));
           expect(packageContent.name).to.equal(`test`);

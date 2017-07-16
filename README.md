@@ -52,6 +52,26 @@ $(npm bin)/npm-publish-git-tag
 
 To learn how `npm-publish-git-tag` can be used to automatically publish your project when new changes are pushed to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
+## CLI Options
+
+The following CLI options are supported and can be passed to `npm-publish-git-tag`:
+
+**[--access <public|restricted>]** - Documentation available on [npm website](https://docs.npmjs.com/cli/publish).
+
+Publishing a scoped package as a public package requires that you set `--access` to `public`.
+
+```bash
+$(yarn bin)/npm-publish-git-tag --access public
+```
+
+If you attempt to publish a scoped package as `restricted`, but you do not have a paid account with Npm Inc., you will receive an error similar to the following:
+
+```bash
+npm ERR! publish Failed PUT 402
+npm ERR! code E402
+npm ERR! "You must sign up for private packages" : @scope/example-package
+```
+
 ### How the Publish Happens
 
 First step of `npm-publish-git-tag` is to get the latest git tag on the current branch for your project and treat it as a [semantically valid version number](http://semver.org/). With the version number in hand, we write the version number to the `version` field within your project's `package.json` file. Writing the version number to your project's `package.json` allows us to publish your package regardless of how you tag, or otherwise, update, your project's version.

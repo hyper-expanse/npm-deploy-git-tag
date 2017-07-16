@@ -10,11 +10,10 @@ program
   .description(pkg.description)
   .version(pkg.version)
   .option('-a, --access <access>', 'published as [public] or [restricted]', /^(public|restricted)$/i, 'restricted')
-  .option('-s, --skip-token', 'skip authentication with a token')
   .parse(process.argv)
 ;
 
-publishGitTag()
+publishGitTag({access: program.access})
   .catch(error => {
     console.error(`npm-publish-git-tag failed for the following reason - ${error}`);
     process.exit(1);
