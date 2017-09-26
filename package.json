@@ -55,6 +55,6 @@
     "semantic-release-gitlab": "^4.0.3",
     "shelljs": "^0.7.7",
     "sinon": "^3.0.0",
-    "tmp": "^0.0.31"
+    "tmp": "^0.0.33"
   }
 }
