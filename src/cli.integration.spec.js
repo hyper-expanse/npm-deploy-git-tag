@@ -61,41 +61,7 @@ describe(`npm-publish-git-tag CLI`, function () {
     it(`returns a non-zero code when called from outside a git repo`, function () {
       const cliRes = shell.exec(`node ${this.binPath}`);
       expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-
-      // When a git directory does not exist, the entire process exits, before any of our error handling. This is
-      // likely because one of our require calls is causing another module to look for the `.git` directory.
-      // TODO: Follow up upstream.
-      /*
-        path /tmp/tmp-688SO5Ej6wcknl
-        /app/node_modules/ggit/src/git-folder.js:12
-                throw new Error('Cannot find file ' + gitDirLocation);
-                ^
-
-        Error: Cannot find file /tmp/tmp-688SO5Ej6wcknl/.git
-            at getGitFolder (/app/node_modules/ggit/src/git-folder.js:12:15)
-            at Object.<anonymous> (/app/node_modules/ggit/src/commit-message.js:4:39)
-            at Module._compile (module.js:409:26)
-            at Module.replacementCompile (/app/node_modules/nyc/node_modules/append-transform/index.js:58:13)
-            at Module.replacementCompile (/app/node_modules/nyc/node_modules/append-transform/index.js:58:13)
-            at module.exports (/app/node_modules/nyc/node_modules/default-require-extensions/js.js:8:9)
-            at /app/node_modules/nyc/node_modules/append-transform/index.js:62:4
-            at /app/node_modules/nyc/node_modules/append-transform/index.js:62:4
-            at Object.<anonymous> (/app/node_modules/nyc/node_modules/append-transform/index.js:62:4)
-            at Module.load (module.js:343:32)
-            at Function.Module._load (module.js:300:12)
-            at Module.require (module.js:353:17)
-            at require (internal/module.js:12:17)
-            at Object.<anonymous> (/app/node_modules/ggit/index.js:21:17)
-            at Module._compile (module.js:409:26)
-            at Module.replacementCompile (/app/node_modules/nyc/node_modules/append-transform/index.js:58:13)
-            at Module.replacementCompile (/app/node_modules/nyc/node_modules/append-transform/index.js:58:13)
-            at module.exports (/app/node_modules/nyc/node_modules/default-require-extensions/js.js:8:9)
-            at /app/node_modules/nyc/node_modules/append-transform/index.js:62:4
-            at /app/node_modules/nyc/node_modules/append-transform/index.js:62:4
-            at Object.<anonymous> (/app/node_modules/nyc/node_modules/append-transform/index.js:62:4)
-            at Module.load (module.js:343:32)
-      */
-      // expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
     });
 
     it(`returns a non-zero code when the current branch does not have commits`, function () {
