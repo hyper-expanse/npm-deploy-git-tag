@@ -6,16 +6,19 @@ const chai = require(`chai`);
 const chaiAsPromised = require(`chai-as-promised`);
 const fs = require(`fs`);
 const mocha = require(`mocha`);
-const proxyquire = require(`proxyquire`);
 const shell = require(`shelljs`);
 const sinon = require(`sinon`);
-const tmp = require(`tmp`);
+const sinonChai = require(`sinon-chai`);
 const nock = require('nock');
+const tmp = require(`tmp`);
+
+const npmPublishGitTag = require(`./index`).npmPublishGitTag;
 
 chai.use(chaiAsPromised);
+chai.use(sinonChai);
 const expect = chai.expect;
 
-const after = mocha.after;
+const afterEach = mocha.after;
 const before = mocha.before;
 const beforeEach = mocha.beforeEach;
 const describe = mocha.describe;
@@ -29,72 +32,115 @@ describe(`npm-publish-git-tag`, function () {
     nock.disableNetConnect();
   });
 
-  before(function () {
+  beforeEach(function () {
     // Switch into a temporary directory to isolate the behavior of this tool from
     // the rest of the environment.
     this.cwd = process.cwd();
     this.tmpDir = tmp.dirSync();
     process.chdir(this.tmpDir.name);
 
-    // Empty `package.json` file for our publish pipeline to write a version into.
-    fs.writeFileSync(`package.json`, `{ "name": "test", "version": "1.0.0" }`);
+    this.oldToken = process.env.NPM_TOKEN;
+    process.env.NPM_TOKEN = `token`;
+
+    // Default `package.json` file for our publish pipeline to write a version into.
+    fs.writeFileSync(`package.json`, `{ "name": "test", "version": "0.0.0" }`);
+
+    // Empty `.npmrc` configuration file which our publish pipeline will augment with authentication token placeholder.
+    fs.writeFileSync(`.npmrc`, ``);
 
     // Do not console print output from tools invoked by `shelljs`.
     shell.config.silent = true;
 
-    // Default set of options passed to `npm-publish-git-tag`.
-    this.defaultOptions = {access: 'restricted'};
-
-    // Create git repository and then generate two commits, tagging each commit with a unique
-    // semantic version valid tag. The second tag should be the one pulled by the pipeline.
+    // Setup our test git repository that we'll use in future tests.
     shell.exec(`git init`);
     shell.exec(`git config user.email "you@example.com"`);
     shell.exec(`git config user.name "Your Name"`);
     shell.exec(`git commit --allow-empty -m "init" --no-gpg-sign`);
 
-    // Create stub for setting the npm auth token.
-    // TODO: Need a better way to isolate behavior of `npm.setAuthToken` so that
-    // we don't need to mock the entire function. We really do want to verify the expected
-    // behavior of `npm.setAuthToken`.
-    const setAuthTokenStub = sinon.stub();
-    setAuthTokenStub.rejects(); // Default case.
-    setAuthTokenStub.withArgs(undefined).resolves();
+    // Create stub for publishing an npm package as we don't want to actually publish a package
+    // as part of our integration tests.
+    this.execStub = sinon.stub();
+    this.execStub.rejects(); // Simple default case. We will setup expected behavior later.
 
-    // Create stub for publishing an npm package.
-    // TODO: Need a better way to isolate behavior of `npm.publish` so that
-    // we don't need to mock the entire function. We really do want to verify the expected
-    // behavior of `npm.publish`.
-    const publishStub = sinon.stub();
-    publishStub.rejects(); // Default case.
-    publishStub.withArgs(this.defaultOptions).resolves();
-
-    // Create an instance of `publishGitTag` with the `npm-utils` methods mocked out to
-    // prevent interaction with directories and processes outside of this test.
-    this.publishGitTag = proxyquire(`./index`, {
-      'npm-utils': {
-        setAuthToken: setAuthTokenStub,
-        publish: publishStub,
-      },
-    });
+    this.wrapped = options => npmPublishGitTag({exec: this.execStub})(options);
   });
 
-  after(function () {
+  afterEach(function () {
+    process.env.NPM_TOKEN = this.oldToken;
     process.chdir(this.cwd);
   });
 
   describe(`existing tag`, function () {
     beforeEach(function () {
-      shell.exec(`git tag 1.0.1`);
-      shell.exec(`git commit --allow-empty -m "change" --no-gpg-sign`);
-      shell.exec(`git tag 1.2.1`);
+      shell.exec(`git tag 1.0.0`);
     });
 
     it(`writes last git tag to 'package.json'`, function () {
-      return expect(this.publishGitTag(this.defaultOptions)).to.be.fulfilled
-        .then(function () {
+      this.execStub.withArgs(`npm publish`).resolves();
+
+      return expect(this.wrapped({})).to.be.fulfilled
+        .then(() => {
           const packageContent = JSON.parse(fs.readFileSync(`package.json`));
           expect(packageContent.name).to.equal(`test`);
-          expect(packageContent.version).to.equal(`1.2.1`);
+          expect(packageContent.version).to.equal(`1.0.0`);
+          expect(this.execStub).to.have.been.calledOnce;
+        });
+    });
+
+    it(`augments '.npmrc' with authentication placeholder`, function () {
+      this.execStub.withArgs(`npm publish`).resolves();
+
+      return expect(this.wrapped({})).to.be.fulfilled
+        .then(() => {
+          const npmrcContent = fs.readFileSync(`.npmrc`);
+          expect(npmrcContent.toString()).to.equal(`\n//registry.npmjs.org/:_authToken=\${NPM_TOKEN}\n`);
+          expect(this.execStub).to.have.been.calledOnce;
+        });
+    });
+
+    describe(`with a trailing commit`, function () {
+      beforeEach(function () {
+        shell.exec(`git commit --allow-empty -m "feat(index): add enhancement" --no-gpg-sign`);
+      });
+
+      it(`writes last git tag to 'package.json'`, function () {
+        this.execStub.withArgs(`npm publish`).resolves();
+
+        return expect(this.wrapped({})).to.be.fulfilled
+          .then(() => {
+            const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+            expect(packageContent.name).to.equal(`test`);
+            expect(packageContent.version).to.equal(`1.0.0`);
+            expect(this.execStub).to.have.been.calledOnce;
+          });
+      });
+    });
+
+    describe(`with a second tag`, function () {
+      beforeEach(function () {
+        shell.exec(`git commit --allow-empty -m "feat(index): add enhancement" --no-gpg-sign`);
+        shell.exec(`git tag 1.1.0`);
+      });
+
+      it(`writes last git tag to 'package.json'`, function () {
+        this.execStub.withArgs(`npm publish`).resolves();
+
+        return expect(this.wrapped({})).to.be.fulfilled
+          .then(() => {
+            const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+            expect(packageContent.name).to.equal(`test`);
+            expect(packageContent.version).to.equal(`1.1.0`);
+            expect(this.execStub).to.have.been.calledOnce;
+          });
+      });
+    });
+
+    it(`can set access level for package'`, function () {
+      this.execStub.withArgs(`npm publish --access restricted`).resolves();
+
+      return expect(this.wrapped({access: `restricted`})).to.be.fulfilled
+        .then(() => {
+          expect(this.execStub).to.have.been.calledOnce;
         });
     });
   });
@@ -130,11 +176,14 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`should publish patch version using latest tag on the current branch`, function () {
-      return expect(this.publishGitTag(this.defaultOptions)).to.be.fulfilled
-        .then(function () {
+      this.execStub.withArgs(`npm publish`).resolves();
+
+      return expect(this.wrapped({})).to.be.fulfilled
+        .then(() => {
           const packageContent = JSON.parse(fs.readFileSync(`package.json`));
           expect(packageContent.name).to.equal(`test`);
           expect(packageContent.version).to.equal(`1.0.2`);
+          expect(this.execStub).to.have.been.calledOnce;
         });
     });
   });

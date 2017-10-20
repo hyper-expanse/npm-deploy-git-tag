@@ -38,23 +38,24 @@
     "commander": "^2.9.0",
     "git-latest-semver-tag": "^1.0.2",
     "is-scoped": "^1.0.0",
-    "npm-utils": "^1.12.0",
     "read-pkg": "^2.0.0",
+    "set-npm-auth-token-for-ci": "^1.0.14",
+    "shelljs": "^0.7.8",
     "write-pkg": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "codecov": "^2.1.0",
+    "debug": "^3.1.0",
     "eslint": "^4.0.0",
     "eslint-config-xo-space": "^0.16.0",
     "mocha": "^4.0.0",
     "nock": "^9.0.13",
     "nyc": "^11.0.2",
-    "proxyquire": "^1.7.11",
     "semantic-release-gitlab": "^4.0.3",
-    "shelljs": "^0.7.7",
     "sinon": "^4.0.0",
+    "sinon-chai": "^2.14.0",
     "tmp": "^0.0.33"
   }
 }
