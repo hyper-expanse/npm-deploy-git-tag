@@ -89,9 +89,15 @@ describe(`npm-publish-git-tag CLI`, function () {
 
     it(`returns a non-zero code when there is no environment variable NPM_TOKEN`, function () {
       runNPreparations(4);
+
+      const oldToken = process.env.NPM_TOKEN;
+      delete process.env.NPM_TOKEN;
+
       const cliRes = shell.exec(`node ${this.binPath}`);
       expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
       expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+
+      process.env.NPM_TOKEN = oldToken;
     });
   });
 
