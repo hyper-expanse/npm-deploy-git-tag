@@ -53,7 +53,7 @@
     "mocha": "^4.0.0",
     "nock": "^9.0.13",
     "nyc": "^11.0.2",
-    "semantic-release-gitlab": "^4.0.3",
+    "semantic-release-gitlab": "^5.0.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0",
     "tmp": "^0.0.33"
