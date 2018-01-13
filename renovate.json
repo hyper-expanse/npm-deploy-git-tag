@@ -1,7 +1,6 @@
 {
   "assignees": ["hutson"],
   "automerge": true,
-  "automergeType": "branch-merge-commit",
   "labels": ["refactor"],
   "lockFileMaintenance": {
     "enabled": true
