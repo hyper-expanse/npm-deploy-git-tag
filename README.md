@@ -1,7 +1,7 @@
 # npm-publish-git-tag
 
 [![build status](https://gitlab.com/hyper-expanse/npm-publish-git-tag/badges/master/build.svg)](https://gitlab.com/hyper-expanse/npm-publish-git-tag/commits/master)
-[![codecov.io](https://codecov.io/gitlab/hyper-expanse/npm-publish-git-tag/coverage.svg?branch=master)](https://codecov.io/gitlab/hyper-expanse/npm-publish-git-tag?branch=master)
+[![codecov](https://codecov.io/gl/hyper-expanse/npm-publish-git-tag/branch/master/graph/badge.svg)](https://codecov.io/gl/hyper-expanse/npm-publish-git-tag)
 
 > Publish to an `npm`-compatible registry using the latest git tag from that package's repository.
 
@@ -14,29 +14,48 @@ By automating these steps `npm-publish-git-tag` alleviates some of the overhead 
 
 This idea, however, is not new. `npm-publish-git-tag` was heavily inspired by the work of [ci-publish](https://www.npmjs.com/package/ci-publish).
 
+## Table of Contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [CLI Options](#cli-options)
+  - [How the Publish Happens](#how-the-publish-happens)
+  - [Required Environment Variable](#required-environment-variable)
+  - [Continuous Integration and Delivery (CID) Setup](#continuous-integration-and-delivery-cid-setup)
+- [Publishing Elsewhere Besides Public npm Registry](#publishing-elsewhere-besides-public-npm-registry)
+- [Debugging](#debugging)
+- [Node Support Policy](#node-support-policy)
+- [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Features
 
-* [&#x2713;] Get latest tag from current project using [ggit](https://www.npmjs.com/package/ggit).
-* [&#x2713;] Write the version number to the project's `package.json` file using [modify-pkg](https://www.npmjs.com/package/write-pkg)
-* [&#x2713;] Publish package to an `npm`-compatible registry with [npm-utils](https://www.npmjs.com/package/npm-utils).
+* [x] Get latest tag from current project using [git-latest-semver-tag](https://www.npmjs.com/package/git-latest-semver-tag).
+* [x] Write the version number to the project's `package.json` file using [read-pkg](https://www.npmjs.com/package/read-pkg) and [write-pkg](https://www.npmjs.com/package/write-pkg).
+* [x] Publish package to an `npm`-compatible registry with [set-npm-auth-token-for-ci](https://www.npmjs.com/package/set-npm-auth-token-for-ci).
 
 ## Installation
 
 To install the `npm-publish-git-tag` tool for use in your project's publish process please run the following command:
 
 ```bash
-yarn add --dev npm-publish-git-tag
-```
-
-If you are using the `npm` package manager:
-
-```bash
-npm install --save-dev npm-publish-git-tag
+yarn add [--dev] npm-publish-git-tag
 ```
 
 ## Usage
 
 Setup the environment variable described in the _Required Environment Variable_ section.
+
+There are two options for using `npm-publish-git-tag`. Either as a CLI tool, or programtically.
+
+To learn how `npm-publish-git-tag` can be used to automatically publish your project after you've pushed new changes to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
+
+**CLI Tool**
 
 Then call `npm-publish-git-tag` from within your project's top folder:
 
@@ -44,13 +63,17 @@ Then call `npm-publish-git-tag` from within your project's top folder:
 $(yarn bin)/npm-publish-git-tag
 ```
 
-If you're using the `npm` package manager:
+**Programmatically**
 
-```bash
-$(npm bin)/npm-publish-git-tag
+```javascript
+const npmPublishGitTag = require(`npm-publish-git-tag`);
+
+const config = {};
+
+npmPublishGitTag(config)
+  .then((outpu) => { /* Package successfully published to an npm registry. */ })
+  .catch((error) => { /* Do any exception handling here. */ });
 ```
-
-To learn how `npm-publish-git-tag` can be used to automatically publish your project when new changes are pushed to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
 ### CLI Options
 
@@ -103,8 +126,8 @@ You can see a snippet of a `.gitlab-ci.yml` file below with this setup:
 ```yaml
 publish:
 	before_script:
-		- yarn install --freeze-lockfile
-	image: node:6
+		- yarn install --frozen-lockfile
+	image: node:8
 	only:
 		- tags
 	script:
@@ -139,20 +162,6 @@ On the Windows command line you may do:
 ```bash
 set DEBUG=npm-publish-git-tag
 npm-publish-git-tag
-```
-
-`npm-publish-git-tag` uses numerous other npm packages and many of those use the `debug` utility package as well. For example, to print the debug messages from [npm-utils](https://www.npmjs.com/package/npm-utils) you may assign `npm-publish-git-tag` and `npm-utils` to the `DEBUG` environment variable like so:
-
-```bash
-DEBUG=npm-publish-git-tag,npm-utils npm-publish-git-tag
-```
-
-You may also print debug messages for the underlying HTTP request library, [request](https://www.npmjs.com/package/request), by setting the `NODE_DEBUG` environment variable to `request`, as [shown in their documentation](https://www.npmjs.com/package/request#debugging).
-
-As an example:
-
-```bash
-NODE_DEBUG=request npm-publish-git-tag
 ```
 
 ## Node Support Policy
