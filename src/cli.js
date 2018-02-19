@@ -12,9 +12,7 @@ program
   .description(pkg.description)
   .version(pkg.version)
   .option('-a, --access <access>', 'published as [public] or [restricted]', /^(public|restricted)$/i, 'restricted')
-  .parse(process.argv)
-;
-
+  .parse(process.argv);
 readPkg()
   .then(pkg => isScoped(pkg.name))
 
@@ -23,5 +21,5 @@ readPkg()
   .catch(error => {
     console.error(`npm-publish-git-tag failed for the following reason - ${error}`);
     process.exit(1);
-  })
-;
+  });
+
