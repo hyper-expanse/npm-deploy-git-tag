@@ -2273,7 +2273,7 @@ mimic-response@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
 
-minimatch@^3.0.2, minimatch@^3.0.4:
+minimatch@3.0.4, minimatch@^3.0.2, minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
@@ -2312,8 +2312,8 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
     minimist "0.0.8"
 
 mocha@^5.0.0:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.5.tgz#e228e3386b9387a4710007a641f127b00be44b52"
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.1.0.tgz#5ff11cc39c0bb65330ac6c41f9086634e3e3f686"
   dependencies:
     browser-stdout "1.3.1"
     commander "2.11.0"
@@ -2323,6 +2323,7 @@ mocha@^5.0.0:
     glob "7.1.2"
     growl "1.10.3"
     he "1.1.1"
+    minimatch "3.0.4"
     mkdirp "0.5.1"
     supports-color "4.4.0"
 
@@ -2370,8 +2371,8 @@ nise@^1.2.0:
     text-encoding "^0.6.4"
 
 nock@^9.0.13:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-9.2.3.tgz#39738087d6a0497d3a165fb352612b38a2f9b92f"
+  version "9.2.5"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.2.5.tgz#c131fc8d3c4723f386be0269739638be84733f2f"
   dependencies:
     chai "^4.1.2"
     debug "^3.1.0"
@@ -2915,8 +2916,8 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
 
 resolve@^1.1.6:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.7.0.tgz#2bdf5374811207285df0df652b78f118ab8f3c5e"
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.7.1.tgz#aadd656374fd298aee895bc026b8297418677fd3"
   dependencies:
     path-parse "^1.0.5"
 
@@ -2996,8 +2997,8 @@ semantic-release-gitlab-notifier@^6.0.0:
     through2 "^2.0.1"
 
 semantic-release-gitlab-releaser@^3.0.3:
-  version "3.0.40"
-  resolved "https://registry.yarnpkg.com/semantic-release-gitlab-releaser/-/semantic-release-gitlab-releaser-3.0.40.tgz#777372f865a3a9bdb3b6c9900094b7f24ade77c6"
+  version "3.0.41"
+  resolved "https://registry.yarnpkg.com/semantic-release-gitlab-releaser/-/semantic-release-gitlab-releaser-3.0.41.tgz#dfbc1434b709ee32b79a027c02936db5bc736a17"
   dependencies:
     bluebird "^3.3.4"
     conventional-gitlab-releaser "^2.0.4"
@@ -3006,8 +3007,8 @@ semantic-release-gitlab-releaser@^3.0.3:
     lodash "^4.0.1"
 
 semantic-release-gitlab@^5.0.0:
-  version "5.0.19"
-  resolved "https://registry.yarnpkg.com/semantic-release-gitlab/-/semantic-release-gitlab-5.0.19.tgz#246fd0312ef50724881d8299e0248b4d3f46049a"
+  version "5.0.20"
+  resolved "https://registry.yarnpkg.com/semantic-release-gitlab/-/semantic-release-gitlab-5.0.20.tgz#a04b33f240216f250c99617bd92c75c5741a6131"
   dependencies:
     bluebird "^3.3.4"
     commander "^2.9.0"
@@ -3037,8 +3038,8 @@ set-blocking@^2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
 
 set-npm-auth-token-for-ci@^1.0.14:
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/set-npm-auth-token-for-ci/-/set-npm-auth-token-for-ci-1.0.36.tgz#b6e431c9a7dee3eca4f472d8b0c59e46c90e115b"
+  version "1.0.37"
+  resolved "https://registry.yarnpkg.com/set-npm-auth-token-for-ci/-/set-npm-auth-token-for-ci-1.0.37.tgz#a6ea2c2bdaa97c91ecdfe858753fa446316fc744"
   dependencies:
     debug "^3.0.0"
     local-or-home-npmrc "^1.1.0"
@@ -3081,8 +3082,8 @@ shelljs@^0.8.0:
     rechoir "^0.6.2"
 
 shifted-semver-increment@^1.0.3:
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/shifted-semver-increment/-/shifted-semver-increment-1.0.17.tgz#9263748dc147a1521b8e010c3300a0f2cec4a644"
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/shifted-semver-increment/-/shifted-semver-increment-1.0.18.tgz#d33dffe261d7cbca28f5069745077150b64fd525"
   dependencies:
     debug "^3.1.0"
     semver "^5.4.1"
