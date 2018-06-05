@@ -15,7 +15,7 @@ function npmPublishGitTag(shell) {
   return options =>
     latestSemverTag()
       .then(latestTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: latestTag}))))
-      .then(setNpmAuthTokenForCI)
+      .then(() => options.skipToken || setNpmAuthTokenForCI())
       .then(() => publish({access: options.access}));
 
   function publish(options) {

@@ -68,7 +68,21 @@ $(yarn bin)/npm-publish-git-tag
 ```javascript
 const npmPublishGitTag = require(`npm-publish-git-tag`);
 
-const config = {};
+const config = {
+	/*
+	 * Options are the camelCase form of their respective CLI flag.
+	 */
+
+	/*
+	 * For example, the `--skip-token` option can be set like so:
+	*/
+	skipToken: true,
+
+	/*
+	 * The `--access` option can be set like so:
+	 */
+	access: `restricted`,
+};
 
 npmPublishGitTag(config)
   .then((outpu) => { /* Package successfully published to an npm registry. */ })
@@ -94,6 +108,16 @@ npm ERR! publish Failed PUT 402
 npm ERR! code E402
 npm ERR! "You must sign up for private packages" : @scope/example-package
 ```
+
+**[--skip-token]**
+
+Allows you to publish an npm package without requiring you to set an `NPM_TOKEN` environment variable ontaining your npm authentication token.
+
+```bash
+$(yarn bin)/npm-publish-git-tag --skip-token
+```
+
+You may already have your `.npmrc` configuration file setup with the proper authentication for your npm registry, or your npm registry may not require authentication for publishing (such as local, offline, registries commonly used for testing).
 
 ### How the Publish Happens
 

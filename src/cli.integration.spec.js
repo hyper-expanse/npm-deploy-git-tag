@@ -101,7 +101,11 @@ describe(`npm-publish-git-tag CLI`, function () {
     });
   });
 
-  // Describe.skip(`when publishing succeeds for un-scoped package`);
+  describe(`when publishing succeeds for un-scoped package`, () => {
+    it.skip(`publishes successfully when skipping token`);
+  });
 
-  // Describe.skip(`when publishing succeeds for scoped package`);
+  describe(`when publishing succeeds for scoped package`, () => {
+    it.skip(`publishes successfully when skipping token`);
+  });
 });

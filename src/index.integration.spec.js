@@ -143,6 +143,17 @@ describe(`npm-publish-git-tag`, function () {
           expect(this.execStub).to.have.been.calledOnce;
         });
     });
+
+    it(`does not augment '.npmrc' with authentication placeholder when skipping token authentication`, function () {
+      this.execStub.withArgs(`npm publish`).resolves();
+
+      return expect(this.wrapped({skipToken: true})).to.be.fulfilled
+        .then(() => {
+          const npmrcContent = fs.readFileSync(`.npmrc`);
+          expect(npmrcContent.toString()).to.equal(``);
+          expect(this.execStub).to.have.been.calledOnce;
+        });
+    });
   });
 
   describe(`publishing patches and minor versions off of a branch`, function () {
