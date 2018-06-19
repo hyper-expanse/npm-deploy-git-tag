@@ -46,7 +46,7 @@ release:
   before_script:
     - yarn install --frozen-lockfile
   only:
-    - master@hyper-expanse/npm-publish-git-tag
+    - master
   script:
     - $(yarn bin)/semantic-release-gitlab
   stage: release

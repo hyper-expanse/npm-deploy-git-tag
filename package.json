@@ -5,7 +5,7 @@
     "url": "https://gitlab.com/hutson"
   },
   "bin": "./src/cli.js",
-  "bugs": "https://gitlab.com/hyper-expanse/npm-publish-git-tag/issues",
+  "bugs": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag/issues",
   "description": "Publish to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
     "node": ">=6.9.0"
@@ -13,7 +13,7 @@
   "files": [
     "src/"
   ],
-  "homepage": "https://gitlab.com/hyper-expanse/npm-publish-git-tag#readme",
+  "homepage": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag#readme",
   "keywords": [
     "npm",
     "publish",
@@ -25,7 +25,7 @@
   "name": "npm-publish-git-tag",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/hyper-expanse/npm-publish-git-tag.git"
+    "url": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag.git"
   },
   "scripts": {
     "dev": "docker run --rm --user node -v \"$(pwd)\":/app -w /app -it node:6 sh -c \"yarn install; yarn test; bash\"",

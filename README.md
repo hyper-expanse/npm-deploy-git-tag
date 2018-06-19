@@ -1,8 +1,5 @@
 # npm-publish-git-tag
 
-[![build status](https://gitlab.com/hyper-expanse/npm-publish-git-tag/badges/master/build.svg)](https://gitlab.com/hyper-expanse/npm-publish-git-tag/commits/master)
-[![codecov](https://codecov.io/gl/hyper-expanse/npm-publish-git-tag/branch/master/graph/badge.svg)](https://codecov.io/gl/hyper-expanse/npm-publish-git-tag)
-
 > Publish to an `npm`-compatible registry using the latest git tag from that package's repository.
 
 Publishing a package to an `npm`-compatible registry may include:
@@ -163,7 +160,7 @@ publish:
 
 Full documentation for GitLab CI is available on the [GitLab CI](http://docs.gitlab.com/ce/ci/yaml/README.html) site.
 
-You may also take a look at our [.gitlab-ci.yml](https://gitlab.com/hyper-expanse/npm-publish-git-tag/blob/master/.gitlab-ci.yml) file as an example.
+You may also take a look at our [.gitlab-ci.yml](https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag/blob/master/.gitlab-ci.yml) file as an example.
 
 ## Publishing Elsewhere Besides Public npm Registry
 
@@ -204,4 +201,4 @@ JavaScript package managers should allow you to install this package with any ve
 
 ## Contributing
 
-Please read our [contributing guide](https://gitlab.com/hyper-expanse/npm-publish-git-tag/blob/master/CONTRIBUTING.md) to see how you may contribute to this project.
+Please read our [contributing guide](https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag/blob/master/CONTRIBUTING.md) to see how you may contribute to this project.
