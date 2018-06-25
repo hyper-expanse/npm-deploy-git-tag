@@ -58,4 +58,4 @@ publish:
   only:
     - tags
   script:
-    - node ./src/cli.js
+    - node ./src/cli.js --access public
