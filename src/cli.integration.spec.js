@@ -39,13 +39,13 @@ describe(`npm-publish-git-tag CLI`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
 
-  before(function () {
+  before(() => {
     // This is not actually used in these tests, since `nock` only works within the same process, while the tests below
     // shell out to a sub process.
     nock.disableNetConnect();
   });
 
-  describe(`when publishing fails`, function () {
+  describe(`when publishing fails`, () => {
     beforeEach(function () {
       this.binPath = path.resolve('src/cli.js');
       this.cwd = process.cwd();
@@ -72,7 +72,7 @@ describe(`npm-publish-git-tag CLI`, function () {
     });
 
     // Our call to `latestSemverTag` returns an empty string when no valid semver tag exists.
-    // TODO: Throw an error instead, and handle that in our test case.
+    // Throw an error instead, and handle that in our test case.
     it.skip(`returns a non-zero code when there is no tag with a valid version`, function () {
       runNPreparations(2);
       const cliRes = shell.exec(`node ${this.binPath}`);

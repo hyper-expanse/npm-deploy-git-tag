@@ -28,7 +28,7 @@ describe(`npm-publish-git-tag`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
 
-  before(function () {
+  before(() => {
     nock.disableNetConnect();
   });
 
@@ -70,8 +70,8 @@ describe(`npm-publish-git-tag`, function () {
     process.chdir(this.cwd);
   });
 
-  describe(`existing tag`, function () {
-    beforeEach(function () {
+  describe(`existing tag`, () => {
+    beforeEach(() => {
       shell.exec(`git tag 1.0.0`);
     });
 
@@ -98,8 +98,8 @@ describe(`npm-publish-git-tag`, function () {
         });
     });
 
-    describe(`with a trailing commit`, function () {
-      beforeEach(function () {
+    describe(`with a trailing commit`, () => {
+      beforeEach(() => {
         shell.exec(`git commit --allow-empty -m "feat(index): add enhancement" --no-gpg-sign`);
       });
 
@@ -116,8 +116,8 @@ describe(`npm-publish-git-tag`, function () {
       });
     });
 
-    describe(`with a second tag`, function () {
-      beforeEach(function () {
+    describe(`with a second tag`, () => {
+      beforeEach(() => {
         shell.exec(`git commit --allow-empty -m "feat(index): add enhancement" --no-gpg-sign`);
         shell.exec(`git tag 1.1.0`);
       });
@@ -156,7 +156,7 @@ describe(`npm-publish-git-tag`, function () {
     });
   });
 
-  describe(`publishing patches and minor versions off of a branch`, function () {
+  describe(`publishing patches and minor versions off of a branch`, () => {
     // We want to test the ability to run `npm-publish-git-tag` off of a branch.
 
     // Occasionally people will encounter the following scenario:
@@ -170,7 +170,7 @@ describe(`npm-publish-git-tag`, function () {
     // major version, push a bug fix to that branch, and after having a new tag created on that branch, have
     // `npm-publish-git-tag` automatically publish the new patch version.
 
-    beforeEach(function () {
+    beforeEach(() => {
       shell.exec(`git tag 1.0.1`);
       shell.exec(`git commit --allow-empty -m "feat(index): major change\n\nBREAKING CHANGE: change" --no-gpg-sign`);
 
