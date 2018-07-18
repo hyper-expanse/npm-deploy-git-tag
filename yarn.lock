@@ -573,9 +573,16 @@ concat-stream@^1.6.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-conventional-changelog-angular@^1.6.4, conventional-changelog-angular@^1.6.6:
+conventional-changelog-angular@^1.6.6:
   version "1.6.6"
   resolved "https://registry.yarnpkg.com/conventional-changelog-angular/-/conventional-changelog-angular-1.6.6.tgz#b27f2b315c16d0a1f23eb181309d0e6a4698ea0f"
+  dependencies:
+    compare-func "^1.3.1"
+    q "^1.5.1"
+
+conventional-changelog-angular@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-angular/-/conventional-changelog-angular-5.0.0.tgz#6b37f957984f4d567b83cb29473fed60bd94679e"
   dependencies:
     compare-func "^1.3.1"
     q "^1.5.1"
@@ -651,6 +658,10 @@ conventional-changelog-preset-loader@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/conventional-changelog-preset-loader/-/conventional-changelog-preset-loader-1.1.8.tgz#40bb0f142cd27d16839ec6c74ee8db418099b373"
 
+conventional-changelog-preset-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-changelog-preset-loader/-/conventional-changelog-preset-loader-2.0.0.tgz#69fea3db554d9b2a95dcaf7c603c1a0a389a7603"
+
 conventional-changelog-writer@^3.0.9:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/conventional-changelog-writer/-/conventional-changelog-writer-3.0.9.tgz#4aecdfef33ff2a53bb0cf3b8071ce21f0e994634"
@@ -698,9 +709,28 @@ conventional-commits-filter@^1.1.6:
     is-subset "^0.1.1"
     modify-values "^1.0.0"
 
-conventional-commits-parser@^2.0.0, conventional-commits-parser@^2.1.7:
+conventional-commits-filter@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-commits-filter/-/conventional-commits-filter-2.0.0.tgz#a0ce1d1ff7a1dd7fab36bee8e8256d348d135651"
+  dependencies:
+    is-subset "^0.1.1"
+    modify-values "^1.0.0"
+
+conventional-commits-parser@^2.1.7:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-2.1.7.tgz#eca45ed6140d72ba9722ee4132674d639e644e8e"
+  dependencies:
+    JSONStream "^1.0.4"
+    is-text-path "^1.0.0"
+    lodash "^4.2.1"
+    meow "^4.0.0"
+    split2 "^2.0.0"
+    through2 "^2.0.0"
+    trim-off-newlines "^1.0.0"
+
+conventional-commits-parser@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-commits-parser/-/conventional-commits-parser-3.0.0.tgz#7f604549a50bd8f60443fbe515484b1c2f06a5c4"
   dependencies:
     JSONStream "^1.0.4"
     is-text-path "^1.0.0"
@@ -725,16 +755,16 @@ conventional-gitlab-releaser@^2.0.4:
     semver-regex "^1.0.0"
     through2 "^2.0.0"
 
-conventional-recommended-bump@^2.0.0:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/conventional-recommended-bump/-/conventional-recommended-bump-2.0.9.tgz#7392421e7d0e3515f3df2040572a23cc73a68a93"
+conventional-recommended-bump@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/conventional-recommended-bump/-/conventional-recommended-bump-4.0.0.tgz#017dd469a0dcbd9c23d26da59157977d625d3120"
   dependencies:
     concat-stream "^1.6.0"
-    conventional-changelog-preset-loader "^1.1.8"
-    conventional-commits-filter "^1.1.6"
-    conventional-commits-parser "^2.1.7"
-    git-raw-commits "^1.3.6"
-    git-semver-tags "^1.3.6"
+    conventional-changelog-preset-loader "^2.0.0"
+    conventional-commits-filter "^2.0.0"
+    conventional-commits-parser "^3.0.0"
+    git-raw-commits "^2.0.0"
+    git-semver-tags "^2.0.0"
     meow "^4.0.0"
     q "^1.5.1"
 
@@ -1314,6 +1344,16 @@ git-raw-commits@^1.2.0, git-raw-commits@^1.3.6:
     split2 "^2.0.0"
     through2 "^2.0.0"
 
+git-raw-commits@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/git-raw-commits/-/git-raw-commits-2.0.0.tgz#d92addf74440c14bcc5c83ecce3fb7f8a79118b5"
+  dependencies:
+    dargs "^4.0.1"
+    lodash.template "^4.0.2"
+    meow "^4.0.0"
+    split2 "^2.0.0"
+    through2 "^2.0.0"
+
 git-remote-origin-url@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/git-remote-origin-url/-/git-remote-origin-url-2.0.0.tgz#5282659dae2107145a11126112ad3216ec5fa65f"
@@ -1324,6 +1364,13 @@ git-remote-origin-url@^2.0.0:
 git-semver-tags@^1.0.0, git-semver-tags@^1.1.2, git-semver-tags@^1.3.6:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/git-semver-tags/-/git-semver-tags-1.3.6.tgz#357ea01f7280794fe0927f2806bee6414d2caba5"
+  dependencies:
+    meow "^4.0.0"
+    semver "^5.5.0"
+
+git-semver-tags@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/git-semver-tags/-/git-semver-tags-2.0.0.tgz#c218fd895bdf8e8e02f6bde555b2c3893ac73cd7"
   dependencies:
     meow "^4.0.0"
     semver "^5.5.0"
@@ -2885,12 +2932,12 @@ scoped-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scoped-regex/-/scoped-regex-1.0.0.tgz#a346bb1acd4207ae70bd7c0c7ca9e566b6baddb8"
 
-semantic-release-gitlab-notifier@^6.0.0:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/semantic-release-gitlab-notifier/-/semantic-release-gitlab-notifier-6.0.3.tgz#345950390693de25317129409ba39cd8a692a2cc"
+semantic-release-gitlab-notifier@^8.0.0:
+  version "8.0.8"
+  resolved "https://registry.yarnpkg.com/semantic-release-gitlab-notifier/-/semantic-release-gitlab-notifier-8.0.8.tgz#d0af6ddf0aeeeec65a354f88e182ccbc5e4edc4c"
   dependencies:
     bluebird "^3.4.1"
-    conventional-commits-parser "^2.0.0"
+    conventional-commits-parser "^3.0.0"
     debug "^3.0.0"
     get-pkg-repo "^2.0.0"
     gl-got "^8.0.0"
@@ -2909,23 +2956,23 @@ semantic-release-gitlab-releaser@^3.0.3:
     get-pkg-repo "^2.0.0"
     lodash "^4.0.1"
 
-semantic-release-gitlab@^5.0.0:
-  version "5.0.26"
-  resolved "https://registry.yarnpkg.com/semantic-release-gitlab/-/semantic-release-gitlab-5.0.26.tgz#dc2e027428fc3e983ac9b623e7906a7069a9767b"
+semantic-release-gitlab@^7.0.0:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/semantic-release-gitlab/-/semantic-release-gitlab-7.0.7.tgz#20c45709695b96828c2576f8846e262aa94b01ac"
   dependencies:
     bluebird "^3.3.4"
     commander "^2.9.0"
-    conventional-changelog-angular "^1.6.4"
+    conventional-changelog-angular "^5.0.0"
     conventional-commits-detector "^0.1.1"
-    conventional-recommended-bump "^2.0.0"
+    conventional-recommended-bump "^4.0.0"
     debug "^3.0.0"
     git-latest-semver-tag "^1.0.2"
     git-raw-commits "^1.2.0"
     lodash "^4.7.0"
-    semantic-release-gitlab-notifier "^6.0.0"
+    semantic-release-gitlab-notifier "^8.0.0"
     semantic-release-gitlab-releaser "^3.0.3"
     shelljs "^0.8.0"
-    shifted-semver-increment "^1.0.3"
+    shifted-semver-increment "^2.0.0"
     stream-to-array "^2.3.0"
 
 semver-regex@^1.0.0:
@@ -2984,9 +3031,9 @@ shelljs@^0.8.0:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
-shifted-semver-increment@^1.0.3:
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/shifted-semver-increment/-/shifted-semver-increment-1.0.23.tgz#9bface1d6617bb8255ab27eaa5d1f29ff3779bf5"
+shifted-semver-increment@^2.0.0:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/shifted-semver-increment/-/shifted-semver-increment-2.0.9.tgz#f92d3e214610ef2fa3f16821faaa6a88ca535fd9"
   dependencies:
     debug "^3.1.0"
     semver "^5.4.1"
