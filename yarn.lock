@@ -2378,6 +2378,19 @@ normalize-package-data@^2.3.0, normalize-package-data@^2.3.2, normalize-package-
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
 
+npm-publish-git-tag@^2.1.14:
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/npm-publish-git-tag/-/npm-publish-git-tag-2.1.14.tgz#1c358e1e9368156de22a000bdcb5947655693935"
+  dependencies:
+    bluebird "^3.5.0"
+    commander "^2.9.0"
+    git-latest-semver-tag "^1.0.2"
+    is-scoped "^1.0.0"
+    read-pkg "^4.0.0"
+    set-npm-auth-token-for-ci "^1.0.14"
+    shelljs "^0.8.0"
+    write-pkg "^3.0.1"
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
