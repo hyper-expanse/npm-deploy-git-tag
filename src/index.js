@@ -15,8 +15,15 @@ function npmPublishGitTag(shell) {
   return options =>
     latestSemverTag()
       .then(latestTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: latestTag}))))
-      .then(() => options.skipToken || setNpmAuthTokenForCI())
+      .then(() => options.skipToken || setToken())
       .then(() => publish({access: options.access}));
+
+  function setToken() {
+    if (!process.env.NPM_TOKEN) {
+      throw new Error(`Cannot find NPM_TOKEN set in your environment.`);
+    }
+    setNpmAuthTokenForCI();
+  }
 
   function publish(options) {
     let command = `npm publish`;

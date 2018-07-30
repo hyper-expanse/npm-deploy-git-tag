@@ -93,7 +93,7 @@ describe(`npm-publish-git-tag`, function () {
       return expect(this.wrapped({})).to.be.fulfilled
         .then(() => {
           const npmrcContent = fs.readFileSync(`.npmrc`);
-          expect(npmrcContent.toString()).to.equal(`\n//registry.npmjs.org/:_authToken=\${NPM_TOKEN}\n`);
+          expect(npmrcContent.toString()).to.contain(`:_authToken=\${NPM_TOKEN}\n`);
           expect(this.execStub).to.have.been.calledOnce;
         });
     });
