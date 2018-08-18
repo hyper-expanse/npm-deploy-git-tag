@@ -82,6 +82,12 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@hbetts/conventional-changelog-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@hbetts/conventional-changelog-config/-/conventional-changelog-config-1.0.0.tgz#40ef99f30a0f7260e353cef0fb1fafcb5d55c3a3"
+  dependencies:
+    conventional-changelog-angular "^5.0.0"
+
 "@hbetts/eslint-config@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@hbetts/eslint-config/-/eslint-config-1.0.1.tgz#9c36357f27c303762275151135703992c864a0e8"
@@ -2702,7 +2708,7 @@ quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
 
-rc@^1.2.7:
+rc@^1.0.1, rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
   dependencies:
@@ -2809,6 +2815,12 @@ regexp.prototype.flags@^1.2.0:
 regexpp@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-1.1.0.tgz#0e3516dd0b7904f413d2d4193dce4618c3a689ab"
+
+registry-url@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/registry-url/-/registry-url-3.1.0.tgz#3d4ef870f73dde1d77f0cf9a381432444e174942"
+  dependencies:
+    rc "^1.0.1"
 
 registry-url@^4.0.0:
   version "4.0.0"
@@ -2999,6 +3011,14 @@ semver-regex@^1.0.0:
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
+
+set-npm-auth-token-for-ci@^1.0.14:
+  version "1.0.43"
+  resolved "https://registry.yarnpkg.com/set-npm-auth-token-for-ci/-/set-npm-auth-token-for-ci-1.0.43.tgz#2081021b732b7bec53156ae3a24457abb243d4e0"
+  dependencies:
+    debug "^3.0.0"
+    local-or-home-npmrc "^1.1.0"
+    registry-url "^3.1.0"
 
 set-npm-auth-token-for-ci@^2.0.0:
   version "2.0.11"
