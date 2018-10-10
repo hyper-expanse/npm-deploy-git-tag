@@ -5,24 +5,18 @@
 const chai = require(`chai`);
 const chaiAsPromised = require(`chai-as-promised`);
 const fs = require(`fs`);
-const mocha = require(`mocha`);
+const {afterEach, before, beforeEach, describe, it} = require(`mocha`);
 const shell = require(`shelljs`);
 const sinon = require(`sinon`);
 const sinonChai = require(`sinon-chai`);
 const nock = require('nock');
 const tmp = require(`tmp`);
 
-const npmPublishGitTag = require(`./index`).npmPublishGitTag;
+const {npmPublishGitTag} = require(`./index`);
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
-const expect = chai.expect;
-
-const afterEach = mocha.after;
-const before = mocha.before;
-const beforeEach = mocha.beforeEach;
-const describe = mocha.describe;
-const it = mocha.it;
+const {expect} = chai;
 
 describe(`npm-publish-git-tag`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
