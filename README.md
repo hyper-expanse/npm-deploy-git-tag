@@ -48,7 +48,7 @@ yarn add [--dev] npm-publish-git-tag
 
 Setup the environment variable described in the _Required Environment Variable_ section.
 
-There are two options for using `npm-publish-git-tag`. Either as a CLI tool, or programtically.
+There are two ways to use `npm-publish-git-tag`, either as a CLI tool, or programtically.
 
 To learn how `npm-publish-git-tag` can be used to automatically publish your project after you've pushed new changes to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
