@@ -11,6 +11,7 @@ const nock = require('nock');
 shell.config.silent = true;
 
 const preparations = [
+  () => fs.writeFileSync(`package.json`, `{ "name": "test", "version": "1.0.0" }`),
   () => {
     shell.exec(`git init`);
     shell.exec(`git config user.email "you@example.com"`);
@@ -18,7 +19,6 @@ const preparations = [
   },
   () => shell.exec(`git commit --allow-empty -m "init" --no-gpg-sign`),
   () => shell.exec(`git tag 1.0.1`),
-  () => fs.writeFileSync(`package.json`, `{ "name": "test", "version": "1.0.0" }`),
 ];
 
 const runNPreparations = n => {
@@ -50,33 +50,37 @@ describe(`npm-publish-git-tag CLI`, function () {
       process.chdir(this.cwd);
     });
 
+    it(`returns a non-zero code when the current directory does not contain package.json`, function () {
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`Error: ENOENT: no such file or directory`);
+    });
+
     it(`returns a non-zero code when called from outside a git repo`, function () {
-      const cliRes = shell.exec(`node ${this.binPath}`);
-      expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      runNPreparations(1);
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).`);
     });
 
     it(`returns a non-zero code when the current branch does not have commits`, function () {
-      runNPreparations(1);
-      const cliRes = shell.exec(`node ${this.binPath}`);
-      expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      runNPreparations(2);
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`does not have any commits yet`);
     });
 
     // Our call to `latestSemverTag` returns an empty string when no valid semver tag exists.
     // Throw an error instead, and handle that in our test case.
-    it.skip(`returns a non-zero code when there is no tag with a valid version`, function () {
-      runNPreparations(2);
-      const cliRes = shell.exec(`node ${this.binPath}`);
-      expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
-    });
-
-    it(`returns a non-zero code when the current directory does not contain package.json`, function () {
+    it(`returns a non-zero code when there is no tag with a valid version`, function () {
       runNPreparations(3);
-      const cliRes = shell.exec(`node ${this.binPath}`);
-      expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`Error: No valid semantic version tag available for publishing.`);
     });
 
     it(`returns a non-zero code when there is no environment variable NPM_TOKEN`, function () {
@@ -85,9 +89,10 @@ describe(`npm-publish-git-tag CLI`, function () {
       const oldToken = process.env.NPM_TOKEN;
       delete process.env.NPM_TOKEN;
 
-      const cliRes = shell.exec(`node ${this.binPath}`);
-      expect(cliRes.code).to.be.a('number').and.not.to.equal(0);
-      expect(cliRes.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`Error: Cannot find NPM_TOKEN set in your environment.`);
 
       process.env.NPM_TOKEN = oldToken;
     });
