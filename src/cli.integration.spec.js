@@ -96,6 +96,22 @@ describe(`npm-publish-git-tag CLI`, function () {
 
       process.env.NPM_TOKEN = oldToken;
     });
+
+    it(`returns a non-zero code when npm can't authenticate with the registry`, function () {
+      runNPreparations(4);
+
+      const oldToken = process.env.NPM_TOKEN;
+      process.env.NPM_TOKEN = `INVALID`;
+
+      const cliResponse = shell.exec(`node ${this.binPath}`);
+      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
+
+      // TO-DO: Can't check against the output because of double printing of stderr by `shelljs`.
+      // Please see - https://github.com/shelljs/shelljs/pull/892
+      // expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+
+      process.env.NPM_TOKEN = oldToken;
+    });
   });
 
   describe(`when publishing succeeds for un-scoped package`, () => {

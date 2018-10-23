@@ -37,7 +37,13 @@ function npmPublishGitTag(shell) {
       command += ` --access ${options.access}`;
     }
 
-    debug(`executing publish command`, command);
-    return shell.exec(command);
+    debug(`executing publish command - ${command}`);
+    const result = shell.exec(command, {silent: true});
+
+    if (result.code !== 0) {
+      throw new Error(result.stderr);
+    }
+
+    return true;
   }
 }

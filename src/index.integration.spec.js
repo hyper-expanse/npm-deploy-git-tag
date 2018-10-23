@@ -18,6 +18,8 @@ chai.use(chaiAsPromised);
 chai.use(sinonChai);
 const {expect} = chai;
 
+shell.config.silent = true;
+
 describe(`npm-publish-git-tag`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
@@ -41,9 +43,6 @@ describe(`npm-publish-git-tag`, function () {
 
     // Empty `.npmrc` configuration file which our publish pipeline will augment with authentication token placeholder.
     fs.writeFileSync(`.npmrc`, ``);
-
-    // Do not console print output from tools invoked by `shelljs`.
-    shell.config.silent = true;
 
     // Setup our test git repository that we'll use in future tests.
     shell.exec(`git init`);
@@ -70,7 +69,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`writes last git tag to 'package.json'`, function () {
-      this.execStub.withArgs(`npm publish`).resolves();
+      this.execStub.withArgs(`npm publish`).returns({code: 0});
 
       return expect(this.wrapped({})).to.be.fulfilled
         .then(() => {
@@ -82,7 +81,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`augments '.npmrc' with authentication placeholder`, function () {
-      this.execStub.withArgs(`npm publish`).resolves();
+      this.execStub.withArgs(`npm publish`).returns({code: 0});
 
       return expect(this.wrapped({})).to.be.fulfilled
         .then(() => {
@@ -98,7 +97,7 @@ describe(`npm-publish-git-tag`, function () {
       });
 
       it(`writes last git tag to 'package.json'`, function () {
-        this.execStub.withArgs(`npm publish`).resolves();
+        this.execStub.withArgs(`npm publish`).returns({code: 0});
 
         return expect(this.wrapped({})).to.be.fulfilled
           .then(() => {
@@ -117,7 +116,7 @@ describe(`npm-publish-git-tag`, function () {
       });
 
       it(`writes last git tag to 'package.json'`, function () {
-        this.execStub.withArgs(`npm publish`).resolves();
+        this.execStub.withArgs(`npm publish`).returns({code: 0});
 
         return expect(this.wrapped({})).to.be.fulfilled
           .then(() => {
@@ -130,7 +129,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`can set access level for package'`, function () {
-      this.execStub.withArgs(`npm publish --access restricted`).resolves();
+      this.execStub.withArgs(`npm publish --access restricted`).returns({code: 0});
 
       return expect(this.wrapped({access: `restricted`})).to.be.fulfilled
         .then(() => {
@@ -139,7 +138,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`does not augment '.npmrc' with authentication placeholder when skipping token authentication`, function () {
-      this.execStub.withArgs(`npm publish`).resolves();
+      this.execStub.withArgs(`npm publish`).returns({code: 0});
 
       return expect(this.wrapped({skipToken: true})).to.be.fulfilled
         .then(() => {
@@ -181,7 +180,7 @@ describe(`npm-publish-git-tag`, function () {
     });
 
     it(`should publish patch version using latest tag on the current branch`, function () {
-      this.execStub.withArgs(`npm publish`).resolves();
+      this.execStub.withArgs(`npm publish`).returns({code: 0});
 
       return expect(this.wrapped({})).to.be.fulfilled
         .then(() => {
