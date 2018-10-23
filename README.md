@@ -82,8 +82,8 @@ const config = {
 };
 
 npmPublishGitTag(config)
-  .then((outpu) => { /* Package successfully published to an npm registry. */ })
-  .catch((error) => { /* Do any exception handling here. */ });
+  .then(output => { /* Package successfully published to an npm registry. */ })
+  .catch(error => { /* Do any exception handling here. */ });
 ```
 
 ### CLI Options
