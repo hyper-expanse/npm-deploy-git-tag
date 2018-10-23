@@ -62,7 +62,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
       expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
-      expect(cliResponse.stderr).to.have.string(`Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).`);
+      expect(cliResponse.stderr).to.have.string(/fatal: not a git repository/i);
     });
 
     it(`returns a non-zero code when the current branch does not have commits`, function () {
@@ -70,7 +70,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
       expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
-      expect(cliResponse.stderr).to.have.string(`does not have any commits yet`);
+      expect(cliResponse.stderr).to.have.string(/does not have any commits yet/i);
     });
 
     // Our call to `latestSemverTag` returns an empty string when no valid semver tag exists.
