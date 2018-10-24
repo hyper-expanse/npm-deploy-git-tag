@@ -2360,17 +2360,18 @@ normalize-package-data@^2.3.0, normalize-package-data@^2.3.2, normalize-package-
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
 
-npm-publish-git-tag@^2.1.14:
-  version "2.1.14"
-  resolved "https://registry.yarnpkg.com/npm-publish-git-tag/-/npm-publish-git-tag-2.1.14.tgz#1c358e1e9368156de22a000bdcb5947655693935"
-  integrity sha512-3auVFR04jiNTJkQQDv6kQr76ERTiPmmLkYAEn0ceLlY0GgwMU/Oo/xT08r6RWn+f28svdrZ/ziXD4BRQAG7ZGg==
+npm-publish-git-tag@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/npm-publish-git-tag/-/npm-publish-git-tag-3.0.0.tgz#9b34909091d8b3e92b9ecbe6d1b1d2e03fe4617b"
+  integrity sha512-MtEqpXamTldT5E5fVgqs+VizWfQ4zQ3sDT+XyyyqzQ/3h79ZiUOtygyTb1EYfNzlpar6eUNXsRXt/31nEkyK3w==
   dependencies:
     bluebird "^3.5.0"
     commander "^2.9.0"
     git-latest-semver-tag "^1.0.2"
     is-scoped "^1.0.0"
     read-pkg "^4.0.0"
-    set-npm-auth-token-for-ci "^1.0.14"
+    semver "^5.6.0"
+    set-npm-auth-token-for-ci "^2.0.0"
     shelljs "^0.8.0"
     write-pkg "^3.0.1"
 
@@ -2731,7 +2732,7 @@ quick-lru@^1.0.0:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
   integrity sha1-Q2CxfGETatOAeDl/8RQW4Ybc+7g=
 
-rc@^1.0.1, rc@^1.2.7:
+rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
   integrity sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==
@@ -2845,13 +2846,6 @@ regexpp@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-2.0.1.tgz#8d19d31cf632482b589049f8281f93dbcba4d07f"
   integrity sha512-lv0M6+TkDVniA3aD1Eg0DVpfU/booSu7Eev3TDO/mZKHBfVjgCGTV4t4buppESEYDtkArYFOxTJWv6S5C+iaNw==
-
-registry-url@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/registry-url/-/registry-url-3.1.0.tgz#3d4ef870f73dde1d77f0cf9a381432444e174942"
-  integrity sha1-PU74cPc93h138M+aOBQyRE4XSUI=
-  dependencies:
-    rc "^1.0.1"
 
 registry-url@^4.0.0:
   version "4.0.0"
@@ -3061,15 +3055,6 @@ set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
-
-set-npm-auth-token-for-ci@^1.0.14:
-  version "1.0.43"
-  resolved "https://registry.yarnpkg.com/set-npm-auth-token-for-ci/-/set-npm-auth-token-for-ci-1.0.43.tgz#2081021b732b7bec53156ae3a24457abb243d4e0"
-  integrity sha512-e9SlxRvdrNK4/GZdt1diTbrYwYgISSK+8DTcG00yg8W+CTr7l1dG84jeQx36Adc2MFT9/Vv7hC6NptFwtfiG7g==
-  dependencies:
-    debug "^3.0.0"
-    local-or-home-npmrc "^1.1.0"
-    registry-url "^3.1.0"
 
 set-npm-auth-token-for-ci@^2.0.0:
   version "2.0.11"
