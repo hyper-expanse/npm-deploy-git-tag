@@ -108,7 +108,7 @@ npm ERR! "You must sign up for private packages" : @scope/example-package
 
 **[--skip-token]**
 
-Allows you to publish an npm package without requiring you to set an `NPM_TOKEN` environment variable ontaining your npm authentication token.
+Allows you to publish an npm package without requiring you to set an `NPM_TOKEN` environment variable containing your npm authentication token.
 
 ```bash
 $(yarn bin)/npm-publish-git-tag --skip-token
