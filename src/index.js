@@ -5,7 +5,7 @@ const debug = require(`debug`)(`npm-publish-git-tag`);
 const latestSemverTag = Bluebird.promisify(require(`git-latest-semver-tag`));
 const readPkg = require(`read-pkg`);
 const semver = require(`semver`);
-const setNpmAuthTokenForCI = require(`set-npm-auth-token-for-ci`);
+const setNpmAuthTokenForCI = require(`@hutson/set-npm-auth-token-for-ci`);
 const shell = require(`shelljs`);
 const writePkg = require(`write-pkg`);
 
