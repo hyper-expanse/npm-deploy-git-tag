@@ -57,7 +57,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       expect(cliResponse.stderr).to.have.string(`Error: ENOENT: no such file or directory`);
     });
 
-    it(`returns a non-zero code when called from outside a git repo`, function () {
+    it(`returns a non-zero code when called from outside a git repository`, function () {
       runNPreparations(1);
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
@@ -77,14 +77,14 @@ describe(`npm-publish-git-tag CLI`, function () {
       expect(cliResponse.stderr).to.match(/(bad default revision|does not have any commits yet)/i);
     });
 
-    // Our call to `latestSemverTag` returns an empty string when no valid semver tag exists.
+    // Our call to `git-latest-semver-tag` returns an empty string when no valid semver tag exists.
     // Throw an error instead, and handle that in our test case.
     it(`returns a non-zero code when there is no tag with a valid version`, function () {
       runNPreparations(3);
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
       expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
-      expect(cliResponse.stderr).to.have.string(`Error: No valid semantic version tag available for publishing.`);
+      expect(cliResponse.stderr).to.have.string(`Error: No valid semantic version tag available for deploying.`);
     });
 
     it(`returns a non-zero code when there is no environment variable NPM_TOKEN`, function () {
@@ -110,9 +110,11 @@ describe(`npm-publish-git-tag CLI`, function () {
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
 
-      // TO-DO: Can't check against the output because of double printing of stderr by `shelljs`.
-      // Please see - https://github.com/shelljs/shelljs/pull/892
-      // expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      /**
+       * TO-DO: Can't check against the output because of double printing of stderr by `shelljs`.
+       * Please see - https://github.com/shelljs/shelljs/pull/892
+       * expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+       */
 
       process.env.NPM_TOKEN = oldToken;
     });

@@ -12,7 +12,7 @@ const sinonChai = require(`sinon-chai`);
 const nock = require('nock');
 const tmp = require(`tmp`);
 
-const {npmPublishGitTag} = require(`./index`);
+const {deployGitTag} = require(`../`);
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
@@ -55,7 +55,7 @@ describe(`npm-publish-git-tag`, function () {
     this.execStub = sinon.stub();
     this.execStub.rejects(); // Simple default case. We will setup expected behavior later.
 
-    this.wrapped = options => npmPublishGitTag({exec: this.execStub})(options);
+    this.wrapped = options => deployGitTag({exec: this.execStub})(options);
   });
 
   afterEach(function () {
@@ -96,7 +96,13 @@ describe(`npm-publish-git-tag`, function () {
         shell.exec(`git commit --allow-empty -m "feat(index): add enhancement" --no-gpg-sign`);
       });
 
-      it(`writes last git tag to 'package.json'`, function () {
+      /**
+       * TODO: This particular case should fail. We should not attempt to publish a commit with
+       * a previous commit's tag.
+       */
+      it.skip(`should fail`);
+
+      it(`writes last git tag to 'package.json' but publishes current commit`, function () {
         this.execStub.withArgs(`npm publish`).returns({code: 0});
 
         return expect(this.wrapped({})).to.be.fulfilled
@@ -115,7 +121,7 @@ describe(`npm-publish-git-tag`, function () {
         shell.exec(`git tag 1.1.0`);
       });
 
-      it(`writes last git tag to 'package.json'`, function () {
+      it(`writes tag pointing at the current commit to 'package.json'`, function () {
         this.execStub.withArgs(`npm publish`).returns({code: 0});
 
         return expect(this.wrapped({})).to.be.fulfilled

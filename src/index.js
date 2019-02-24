@@ -2,25 +2,35 @@
 
 const Bluebird = require(`bluebird`);
 const debug = require(`debug`)(`npm-publish-git-tag`);
-const latestSemverTag = Bluebird.promisify(require(`git-latest-semver-tag`));
+const gitLatestSemverTag = Bluebird.promisify(require(`git-latest-semver-tag`));
 const readPkg = require(`read-pkg`);
 const semver = require(`semver`);
 const setNpmAuthTokenForCI = require(`@hutson/set-npm-auth-token-for-ci`);
 const shell = require(`shelljs`);
 const writePkg = require(`write-pkg`);
 
-module.exports = npmPublishGitTag(shell);
-module.exports.npmPublishGitTag = npmPublishGitTag;
+module.exports = deployGitTag(shell);
+module.exports.deployGitTag = deployGitTag;
 
-function npmPublishGitTag(shell) {
+function deployGitTag(shell) {
   return options =>
-    latestSemverTag()
-      .then(latestTag => semver.valid(latestTag) ? latestTag : (function () {
-        throw new Error(`No valid semantic version tag available for publishing.`);
-      })())
-      .then(latestTag => readPkg().then(pkg => writePkg(Object.assign(pkg, {version: latestTag}))))
+    gitLatestSemverTag()
+      .then(latestTag => {
+        debug(`latest semver tag retrieved from disk is ${latestTag} `);
+        if (semver.valid(latestTag)) {
+          return latestTag;
+        }
+        throw new Error(`No valid semantic version tag available for deploying.`);
+      })
+      .then(updateVersion)
       .then(() => options.skipToken || setToken())
-      .then(() => publish({access: options.access}));
+      .then(() => deploy({access: options.access}));
+
+  function updateVersion(version) {
+    debug(`updating version in package.json to ${version}`);
+
+    return readPkg().then(pkg => writePkg(Object.assign(pkg, {version})));
+  }
 
   function setToken() {
     if (!process.env.NPM_TOKEN) {
@@ -29,7 +39,7 @@ function npmPublishGitTag(shell) {
     setNpmAuthTokenForCI();
   }
 
-  function publish(options) {
+  function deploy(options) {
     let command = `npm publish`;
 
     if (typeof options.access === `string`) {
