@@ -1,9 +1,9 @@
 'use strict';
 
-const {expect} = require(`chai`);
+const { expect } = require(`chai`);
 const fs = require(`fs`);
 const path = require('path');
-const {afterEach, before, beforeEach, describe, it} = require(`mocha`);
+const { afterEach, before, beforeEach, describe, it } = require(`mocha`);
 const shell = require(`shelljs`);
 const tmp = require(`tmp`);
 const nock = require('nock');
@@ -18,7 +18,7 @@ const preparations = [
     shell.exec(`git config user.name "Your Name"`);
   },
   () => shell.exec(`git commit --allow-empty -m "init" --no-gpg-sign`),
-  () => shell.exec(`git tag 1.0.1`),
+  () => shell.exec(`git tag 1.0.1`)
 ];
 
 const runNPreparations = n => {

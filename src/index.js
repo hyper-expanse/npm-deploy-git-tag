@@ -12,7 +12,7 @@ const writePkg = require(`write-pkg`);
 module.exports = deployGitTag(shell);
 module.exports.deployGitTag = deployGitTag;
 
-function deployGitTag(shell) {
+function deployGitTag (shell) {
   return options =>
     gitLatestSemverTag()
       .then(latestTag => {
@@ -24,22 +24,22 @@ function deployGitTag(shell) {
       })
       .then(updateVersion)
       .then(() => options.skipToken || setToken())
-      .then(() => deploy({access: options.access}));
+      .then(() => deploy({ access: options.access }));
 
-  function updateVersion(version) {
+  function updateVersion (version) {
     debug(`updating version in package.json to ${version}`);
 
-    return readPkg().then(pkg => writePkg(Object.assign(pkg, {version})));
+    return readPkg().then(pkg => writePkg(Object.assign(pkg, { version })));
   }
 
-  function setToken() {
+  function setToken () {
     if (!process.env.NPM_TOKEN) {
       throw new Error(`Cannot find NPM_TOKEN set in your environment.`);
     }
     setNpmAuthTokenForCI();
   }
 
-  function deploy(options) {
+  function deploy (options) {
     let command = `npm publish`;
 
     if (typeof options.access === `string`) {
@@ -48,7 +48,7 @@ function deployGitTag(shell) {
     }
 
     debug(`executing publish command - ${command}`);
-    const result = shell.exec(command, {silent: true});
+    const result = shell.exec(command, { silent: true });
 
     if (result.code !== 0) {
       throw new Error(result.stderr);
