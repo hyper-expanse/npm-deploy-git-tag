@@ -20,7 +20,7 @@ const { expect } = chai;
 
 shell.config.silent = true;
 
-describe(`npm-publish-git-tag`, function () {
+describe(`npm-deploy-git-tag`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
 
@@ -156,18 +156,18 @@ describe(`npm-publish-git-tag`, function () {
   });
 
   describe(`publishing patches and minor versions off of a branch`, () => {
-    // We want to test the ability to run `npm-publish-git-tag` off of a branch.
+    // We want to test the ability to run `npm-deploy-git-tag` off of a branch.
 
     // Occasionally people will encounter the following scenario:
 
     // Someone has released a new major version of their project. A consumer of that project reports a bug in the
     // earlier major version, and can't, for whatever reason, upgrade to the latest major version at this time. That
     // consumer would greatly benefit if the project could quickly submit a patch against the earlier major version
-    // and have `npm-publish-git-tag` automatically publish that version.
+    // and have `npm-deploy-git-tag` automatically publish that version.
 
     // The owner of the project should be able to create a dedicated branch off of the latest code for the previous
     // major version, push a bug fix to that branch, and after having a new tag created on that branch, have
-    // `npm-publish-git-tag` automatically publish the new patch version.
+    // `npm-deploy-git-tag` automatically publish the new patch version.
 
     beforeEach(() => {
       shell.exec(`git tag 1.0.1`);

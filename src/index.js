@@ -43,11 +43,11 @@ function deployGitTag (shell) {
     let command = `npm publish`;
 
     if (typeof options.access === `string`) {
-      debug(`publishing package with the following access level`, options.access);
+      debug(`deploying package with the following access level`, options.access);
       command += ` --access ${options.access}`;
     }
 
-    debug(`executing publish command - ${command}`);
+    debug(`executing 'publish' command - ${command}`);
     const result = shell.exec(command, { silent: true });
 
     if (result.code !== 0) {

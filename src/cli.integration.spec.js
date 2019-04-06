@@ -27,7 +27,7 @@ const runNPreparations = n => {
   }
 };
 
-describe(`npm-publish-git-tag CLI`, function () {
+describe(`npm-deploy-git-tag CLI`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
 
@@ -37,7 +37,7 @@ describe(`npm-publish-git-tag CLI`, function () {
     nock.disableNetConnect();
   });
 
-  describe(`when publishing fails`, () => {
+  describe(`when deploying fails`, () => {
     beforeEach(function () {
       this.binPath = path.resolve('src/cli.js');
       this.cwd = process.cwd();
@@ -53,7 +53,7 @@ describe(`npm-publish-git-tag CLI`, function () {
     it(`returns a non-zero code when the current directory does not contain package.json`, function () {
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
       expect(cliResponse.stderr).to.have.string(`Error: ENOENT: no such file or directory`);
     });
 
@@ -61,7 +61,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       runNPreparations(1);
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
       expect(cliResponse.stderr).to.match(/fatal: not a git repository/i);
     });
 
@@ -69,7 +69,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       runNPreparations(2);
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
 
       // The "does not have any commits yet" message was introduced in git version 2.5.2, replacing the
       // other text.
@@ -83,7 +83,7 @@ describe(`npm-publish-git-tag CLI`, function () {
       runNPreparations(3);
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
       expect(cliResponse.stderr).to.have.string(`Error: No valid semantic version tag available for deploying.`);
     });
 
@@ -95,7 +95,7 @@ describe(`npm-publish-git-tag CLI`, function () {
 
       const cliResponse = shell.exec(`node ${this.binPath}`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
       expect(cliResponse.stderr).to.have.string(`Error: Cannot find NPM_TOKEN set in your environment.`);
 
       process.env.NPM_TOKEN = oldToken;
@@ -113,18 +113,18 @@ describe(`npm-publish-git-tag CLI`, function () {
       /**
        * TO-DO: Can't check against the output because of double printing of stderr by `shelljs`.
        * Please see - https://github.com/shelljs/shelljs/pull/892
-       * expect(cliResponse.stderr).to.have.string(`npm-publish-git-tag failed for the following reason`);
+       * expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
        */
 
       process.env.NPM_TOKEN = oldToken;
     });
   });
 
-  describe(`when publishing succeeds for un-scoped package`, () => {
-    it.skip(`publishes successfully when skipping token`);
+  describe(`when deploying succeeds for un-scoped package`, () => {
+    it.skip(`deploys successfully when skipping token`);
   });
 
-  describe(`when publishing succeeds for scoped package`, () => {
-    it.skip(`publishes successfully when skipping token`);
+  describe(`when deploying succeeds for scoped package`, () => {
+    it.skip(`deploys successfully when skipping token`);
   });
 });

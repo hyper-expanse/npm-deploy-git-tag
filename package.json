@@ -5,24 +5,24 @@
     "url": "https://gitlab.com/hutson"
   },
   "bin": "./src/cli.js",
-  "bugs": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag/issues",
-  "description": "Publish to an `npm`-compatible registry using the latest git tag from that package's repository.",
+  "bugs": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag/issues",
+  "description": "Deploy a package to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
     "node": ">=6.9.0"
   },
   "files": [
     "src/**/!(*.spec).js"
   ],
-  "homepage": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag#readme",
+  "homepage": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag#readme",
   "keywords": [
     "npm",
-    "publish",
+    "deploy",
     "git",
     "tag"
   ],
   "license": "Apache-2.0",
   "main": "src/index.js",
-  "name": "npm-publish-git-tag",
+  "name": "@hutson/npm-deploy-git-tag",
   "renovate": {
     "extends": [
       "config:base",
@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag.git"
+    "url": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag.git"
   },
   "scripts": {
     "test": "semistandard 'src/**/*.js' && nyc mocha --opts mocha.opts src/**/*.spec.js"
