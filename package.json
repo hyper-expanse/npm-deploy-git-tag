@@ -23,6 +23,16 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "name": "npm-publish-git-tag",
+  "renovate": {
+    "extends": [
+      "config:base",
+      ":maintainLockFilesWeekly",
+      ":rebaseStalePrs",
+      ":automergeDigest",
+      ":gitSignOff",
+      ":automergeMinor"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://gitlab.com/hyper-expanse/open-source/npm-publish-git-tag.git"
