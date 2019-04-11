@@ -1,5 +1,5 @@
 # Use Alpine Linux as our base image so that we minimize the overall size our final container, and minimize the surface area of packages that could be out of date.
-FROM node:11.3.0-alpine@sha256:6fb75f9947e17826c41a7621cead11eb4ec88df50a26a9ba9b5a4124522958f8
+FROM node:11.13.0-alpine@sha256:72aef1f7a5088ee3b162b1f9eafb48e8b76a9fc9df70169cb6cce75cff7fefce
 
 # Container metadata describing the image, where it's configuration is housed, and its maintainer.
 LABEL description="Docker image for executing `npm-publish-git-tag`."
