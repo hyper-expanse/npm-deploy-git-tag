@@ -112,6 +112,15 @@
     local-or-home-npmrc "^1.1.0"
     registry-url "^4.0.0"
 
+"@hutson/set-npm-auth-token-for-ci@^3.0.0":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@hutson/set-npm-auth-token-for-ci/-/set-npm-auth-token-for-ci-3.0.3.tgz#eb95eddb90c3e6fd430858de60a8474cebabcff1"
+  integrity sha512-+/gCMXQ0SiZMXnneJmpUQ0hEME/846iymSxwT1T7zeYukl+N9kvrGqwok57hNTRTsuns+HYoVLh9jMF3m4rS9A==
+  dependencies:
+    debug "^4.0.0"
+    local-or-home-npmrc "^1.1.0"
+    registry-url "^4.0.0"
+
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.4.0.tgz#7b3ec2d96af481d7a0321252e7b1c94724ec5a78"
