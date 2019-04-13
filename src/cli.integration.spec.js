@@ -3,10 +3,9 @@
 const { expect } = require(`chai`);
 const fs = require(`fs`);
 const path = require('path');
-const { afterEach, before, beforeEach, describe, it } = require(`mocha`);
+const { afterEach, beforeEach, describe, it } = require(`mocha`);
 const shell = require(`shelljs`);
 const tmp = require(`tmp`);
-const nock = require('nock');
 
 shell.config.silent = true;
 
@@ -30,12 +29,6 @@ const runNPreparations = n => {
 describe(`npm-deploy-git-tag CLI`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
-
-  before(() => {
-    // This is not actually used in these tests, since `nock` only works within the same process, while the tests below
-    // shell out to a sub process.
-    nock.disableNetConnect();
-  });
 
   describe(`when deploying fails`, () => {
     beforeEach(function () {
@@ -77,7 +70,7 @@ describe(`npm-deploy-git-tag CLI`, function () {
       expect(cliResponse.stderr).to.match(/(bad default revision|does not have any commits yet)/i);
     });
 
-    // Our call to `git-latest-semver-tag` returns an empty string when no valid semver tag exists.
+    // Our call to `git-semver-tags` returns an empty array when no valid semver tag exists.
     // Throw an error instead, and handle that in our test case.
     it(`returns a non-zero code when there is no tag with a valid version`, function () {
       runNPreparations(3);
@@ -102,6 +95,7 @@ describe(`npm-deploy-git-tag CLI`, function () {
     });
 
     it(`returns a non-zero code when npm can't authenticate with the registry`, function () {
+      // TODO: We should avoid hitting the actual npm registry.
       runNPreparations(4);
 
       const oldToken = process.env.NPM_TOKEN;
@@ -111,7 +105,7 @@ describe(`npm-deploy-git-tag CLI`, function () {
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
 
       /**
-       * TO-DO: Can't check against the output because of double printing of stderr by `shelljs`.
+       * TODO: Can't check against the output because of double printing of stderr by `shelljs`.
        * Please see - https://github.com/shelljs/shelljs/pull/892
        * expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
        */

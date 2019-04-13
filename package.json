@@ -8,7 +8,7 @@
   "bugs": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag/issues",
   "description": "Deploy a package to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=8.9.0"
   },
   "files": [
     "src/**/!(*.spec).js"
@@ -39,6 +39,10 @@
       "src/cli.js",
       "src/**/*.spec.js",
       "src/**/*.mock.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
     ]
   },
   "renovate": {
@@ -64,21 +68,17 @@
     "@hutson/set-npm-auth-token-for-ci": "^3.0.0",
     "bluebird": "^3.5.0",
     "commander": "^2.9.0",
-    "git-latest-semver-tag": "^1.0.2",
-    "is-scoped": "^1.0.0",
-    "read-pkg": "^4.0.0",
-    "semver": "^6.0.0",
+    "git-semver-tags": "^2.0.2",
+    "is-scoped": "^2.1.0",
+    "read-pkg": "^5.0.0",
     "shelljs": "^0.8.0",
     "write-pkg": "^3.0.1"
   },
   "devDependencies": {
     "@hutson/conventional-changelog-config": "^2.0.0",
     "chai": "^4.0.2",
-    "chai-as-promised": "^7.0.0",
     "debug": "^4.0.0",
     "mocha": "^6.0.0",
-    "nock": "^10.0.0",
-    "npm-publish-git-tag": "^3.0.0",
     "nyc": "^13.0.0",
     "semantic-release-gitlab": "^8.0.1",
     "semistandard": "^13.0.1",

@@ -3,18 +3,15 @@
 /* eslint-disable no-unused-expressions */
 
 const chai = require(`chai`);
-const chaiAsPromised = require(`chai-as-promised`);
 const fs = require(`fs`);
-const { afterEach, before, beforeEach, describe, it } = require(`mocha`);
+const { afterEach, beforeEach, describe, it } = require(`mocha`);
 const shell = require(`shelljs`);
 const sinon = require(`sinon`);
 const sinonChai = require(`sinon-chai`);
-const nock = require('nock');
 const tmp = require(`tmp`);
 
 const { deployGitTag } = require(`../`);
 
-chai.use(chaiAsPromised);
 chai.use(sinonChai);
 const { expect } = chai;
 
@@ -23,10 +20,6 @@ shell.config.silent = true;
 describe(`npm-deploy-git-tag`, function () {
   // Setting up our fake project and creating git commits takes longer than the default Mocha timeout.
   this.timeout(20000);
-
-  before(() => {
-    nock.disableNetConnect();
-  });
 
   beforeEach(function () {
     // Switch into a temporary directory to isolate the behavior of this tool from
@@ -68,27 +61,25 @@ describe(`npm-deploy-git-tag`, function () {
       shell.exec(`git tag 1.0.0`);
     });
 
-    it(`writes last git tag to 'package.json'`, function () {
+    it(`writes last git tag to 'package.json'`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      return expect(this.wrapped({})).to.be.fulfilled
-        .then(() => {
-          const packageContent = JSON.parse(fs.readFileSync(`package.json`));
-          expect(packageContent.name).to.equal(`test`);
-          expect(packageContent.version).to.equal(`1.0.0`);
-          expect(this.execStub).to.have.been.calledOnce;
-        });
+      await this.wrapped();
+      const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+
+      expect(packageContent.name).to.equal(`test`);
+      expect(packageContent.version).to.equal(`1.0.0`);
+      expect(this.execStub).to.have.been.calledOnce;
     });
 
-    it(`augments '.npmrc' with authentication placeholder`, function () {
+    it(`augments '.npmrc' with authentication placeholder`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      return expect(this.wrapped({})).to.be.fulfilled
-        .then(() => {
-          const npmrcContent = fs.readFileSync(`.npmrc`);
-          expect(npmrcContent.toString()).to.contain(`:_authToken=\${NPM_TOKEN}\n`);
-          expect(this.execStub).to.have.been.calledOnce;
-        });
+      await this.wrapped();
+      const npmrcContent = fs.readFileSync(`.npmrc`);
+
+      expect(npmrcContent.toString()).to.contain(`:_authToken=\${NPM_TOKEN}\n`);
+      expect(this.execStub).to.have.been.calledOnce;
     });
 
     describe(`with a trailing commit`, () => {
@@ -102,16 +93,15 @@ describe(`npm-deploy-git-tag`, function () {
        */
       it.skip(`should fail`);
 
-      it(`writes last git tag to 'package.json' but publishes current commit`, function () {
+      it(`writes last git tag to 'package.json' but publishes current commit`, async function () {
         this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-        return expect(this.wrapped({})).to.be.fulfilled
-          .then(() => {
-            const packageContent = JSON.parse(fs.readFileSync(`package.json`));
-            expect(packageContent.name).to.equal(`test`);
-            expect(packageContent.version).to.equal(`1.0.0`);
-            expect(this.execStub).to.have.been.calledOnce;
-          });
+        await this.wrapped();
+        const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+
+        expect(packageContent.name).to.equal(`test`);
+        expect(packageContent.version).to.equal(`1.0.0`);
+        expect(this.execStub).to.have.been.calledOnce;
       });
     });
 
@@ -121,37 +111,34 @@ describe(`npm-deploy-git-tag`, function () {
         shell.exec(`git tag 1.1.0`);
       });
 
-      it(`writes tag pointing at the current commit to 'package.json'`, function () {
+      it(`writes tag pointing at the current commit to 'package.json'`, async function () {
         this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-        return expect(this.wrapped({})).to.be.fulfilled
-          .then(() => {
-            const packageContent = JSON.parse(fs.readFileSync(`package.json`));
-            expect(packageContent.name).to.equal(`test`);
-            expect(packageContent.version).to.equal(`1.1.0`);
-            expect(this.execStub).to.have.been.calledOnce;
-          });
+        await this.wrapped();
+        const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+
+        expect(packageContent.name).to.equal(`test`);
+        expect(packageContent.version).to.equal(`1.1.0`);
+        expect(this.execStub).to.have.been.calledOnce;
       });
     });
 
-    it(`can set access level for package'`, function () {
+    it(`can set access level for package'`, async function () {
       this.execStub.withArgs(`npm publish --access restricted`).returns({ code: 0 });
 
-      return expect(this.wrapped({ access: `restricted` })).to.be.fulfilled
-        .then(() => {
-          expect(this.execStub).to.have.been.calledOnce;
-        });
+      await this.wrapped({ access: `restricted` });
+
+      expect(this.execStub).to.have.been.calledOnce;
     });
 
-    it(`does not augment '.npmrc' with authentication placeholder when skipping token authentication`, function () {
+    it(`does not augment '.npmrc' with authentication placeholder when skipping token authentication`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      return expect(this.wrapped({ skipToken: true })).to.be.fulfilled
-        .then(() => {
-          const npmrcContent = fs.readFileSync(`.npmrc`);
-          expect(npmrcContent.toString()).to.equal(``);
-          expect(this.execStub).to.have.been.calledOnce;
-        });
+      await this.wrapped({ skipToken: true });
+      const npmrcContent = fs.readFileSync(`.npmrc`);
+
+      expect(npmrcContent.toString()).to.equal(``);
+      expect(this.execStub).to.have.been.calledOnce;
     });
   });
 
@@ -185,16 +172,15 @@ describe(`npm-deploy-git-tag`, function () {
       shell.exec(`git tag 1.0.2`);
     });
 
-    it(`should publish patch version using latest tag on the current branch`, function () {
+    it(`should publish patch version using latest tag on the current branch`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      return expect(this.wrapped({})).to.be.fulfilled
-        .then(() => {
-          const packageContent = JSON.parse(fs.readFileSync(`package.json`));
-          expect(packageContent.name).to.equal(`test`);
-          expect(packageContent.version).to.equal(`1.0.2`);
-          expect(this.execStub).to.have.been.calledOnce;
-        });
+      await this.wrapped();
+      const packageContent = JSON.parse(fs.readFileSync(`package.json`));
+
+      expect(packageContent.name).to.equal(`test`);
+      expect(packageContent.version).to.equal(`1.0.2`);
+      expect(this.execStub).to.have.been.calledOnce;
     });
   });
 });

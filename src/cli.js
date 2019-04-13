@@ -15,12 +15,13 @@ program
   .option(`-s, --skip-token`, `skip the authentication step`)
   .parse(process.argv);
 
-readPkg()
-  .then(pkg => isScoped(pkg.name))
-
-  // You can not restrict an un-scoped package as all un-scoped packages must be published publicly.
-  .then(scoped => deployGitTag({ access: scoped ? program.access : `public`, skipToken: program.skipToken }))
-  .catch(error => {
+(async () => {
+  try {
+    const { name } = await readPkg();
+    const scoped = isScoped(name);
+    await deployGitTag({ access: scoped ? program.access : `public`, skipToken: program.skipToken });
+  } catch (error) {
     console.error(`npm-deploy-git-tag failed for the following reason - ${error}`);
     process.exit(1);
-  });
+  }
+})();

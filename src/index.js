@@ -1,10 +1,9 @@
 'use strict';
 
 const Bluebird = require(`bluebird`);
-const debug = require(`debug`)(`npm-publish-git-tag`);
-const gitLatestSemverTag = Bluebird.promisify(require(`git-latest-semver-tag`));
+const debug = require(`debug`)(`npm-deploy-git-tag`);
+const gitSemverTags = Bluebird.promisify(require(`git-semver-tags`));
 const readPkg = require(`read-pkg`);
-const semver = require(`semver`);
 const setNpmAuthTokenForCI = require(`@hutson/set-npm-auth-token-for-ci`);
 const shell = require(`shelljs`);
 const writePkg = require(`write-pkg`);
@@ -13,23 +12,21 @@ module.exports = deployGitTag(shell);
 module.exports.deployGitTag = deployGitTag;
 
 function deployGitTag (shell) {
-  return options =>
-    gitLatestSemverTag()
-      .then(latestTag => {
-        debug(`latest semver tag retrieved from disk is ${latestTag} `);
-        if (semver.valid(latestTag)) {
-          return latestTag;
-        }
-        throw new Error(`No valid semantic version tag available for deploying.`);
-      })
-      .then(updateVersion)
-      .then(() => options.skipToken || setToken())
-      .then(() => deploy({ access: options.access }));
+  return async ({ access, skipToken } = {}) => {
+    const tags = await gitSemverTags();
+    if (tags.length === 0) {
+      throw new Error(`No valid semantic version tag available for deploying.`);
+    }
+    await updateVersion(tags[0]);
+    skipToken || setToken();
+    await deploy({ access });
+  };
 
-  function updateVersion (version) {
+  async function updateVersion (version) {
     debug(`updating version in package.json to ${version}`);
 
-    return readPkg().then(pkg => writePkg(Object.assign(pkg, { version })));
+    const packageMeta = await readPkg();
+    await writePkg(Object.assign(packageMeta, { version }));
   }
 
   function setToken () {
@@ -39,12 +36,11 @@ function deployGitTag (shell) {
     setNpmAuthTokenForCI();
   }
 
-  function deploy (options) {
+  function deploy ({ access }) {
     let command = `npm publish`;
 
-    if (typeof options.access === `string`) {
-      debug(`deploying package with the following access level`, options.access);
-      command += ` --access ${options.access}`;
+    if (typeof access === `string`) {
+      command += ` --access ${access}`;
     }
 
     debug(`executing 'publish' command - ${command}`);
@@ -53,7 +49,5 @@ function deployGitTag (shell) {
     if (result.code !== 0) {
       throw new Error(result.stderr);
     }
-
-    return true;
   }
 }
