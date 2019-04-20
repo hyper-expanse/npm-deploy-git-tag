@@ -66,7 +66,6 @@
   "version": "1.0.0",
   "dependencies": {
     "@hutson/set-npm-auth-token-for-ci": "^3.0.0",
-    "bluebird": "^3.5.0",
     "commander": "^2.9.0",
     "git-semver-tags": "^2.0.2",
     "is-scoped": "^2.1.0",

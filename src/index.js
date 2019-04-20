@@ -1,8 +1,8 @@
 'use strict';
 
-const Bluebird = require(`bluebird`);
+const { promisify } = require('util');
 const debug = require(`debug`)(`npm-deploy-git-tag`);
-const gitSemverTags = Bluebird.promisify(require(`git-semver-tags`));
+const gitSemverTags = promisify(require(`git-semver-tags`));
 const readPkg = require(`read-pkg`);
 const setNpmAuthTokenForCI = require(`@hutson/set-npm-auth-token-for-ci`);
 const shell = require(`shelljs`);

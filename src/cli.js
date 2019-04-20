@@ -5,7 +5,7 @@
 const isScoped = require(`is-scoped`);
 const pkg = require(`../package.json`);
 const program = require(`commander`);
-const deployGitTag = require(`../`);
+const npmDeployGitTag = require(`../`);
 const readPkg = require(`read-pkg`);
 
 program
@@ -19,7 +19,7 @@ program
   try {
     const { name } = await readPkg();
     const scoped = isScoped(name);
-    await deployGitTag({ access: scoped ? program.access : `public`, skipToken: program.skipToken });
+    await npmDeployGitTag({ access: scoped ? program.access : `public`, skipToken: program.skipToken });
   } catch (error) {
     console.error(`npm-deploy-git-tag failed for the following reason - ${error}`);
     process.exit(1);
