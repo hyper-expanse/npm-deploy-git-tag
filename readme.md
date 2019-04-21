@@ -9,8 +9,6 @@ Deploying a package to an `npm`-compatible registry may include:
 
 By automating these steps `@hutson/npm-deploy-git-tag` alleviates some of the overhead in managing a project, allowing you to quickly and consistently deploy enhancements that provide value to your consumers.
 
-This idea, however, is not new. `@hutson/npm-deploy-git-tag` was heavily inspired by the work of [ci-publish](https://www.npmjs.com/package/ci-publish).
-
 ## Table of Contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -50,11 +48,11 @@ Setup the environment variable described in the _Required Environment Variable_ 
 
 There are two ways to use `@hutson/npm-deploy-git-tag`, either as a CLI tool, or programmatically.
 
-To learn how `@hutson/npm-deploy-git-tag` can be used to automatically deploy your project after you've pushed new changes to your repository, which we highly recommend, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
+To learn how `@hutson/npm-deploy-git-tag` can be used to automatically deploy your project after you've pushed new changes to your repository, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
 
 **CLI Tool**
 
-Then call `@hutson/npm-deploy-git-tag` from within your project's top folder:
+Call `@hutson/npm-deploy-git-tag` from within your project's top folder:
 
 ```bash
 $(yarn bin)/npm-deploy-git-tag
@@ -66,29 +64,40 @@ $(yarn bin)/npm-deploy-git-tag
 const npmDeployGitTag = require(`@hutson/npm-deploy-git-tag`);
 
 const config = {
-	/*
+	/**
 	 * Options are the camelCase form of their respective CLI flag.
 	 */
 
-	/*
-	 * For example, the `--skip-token` option can be set like so:
+	/**
+	 * The `--skip-token` option can be set like so:
 	*/
 	skipToken: true,
 
-	/*
+	/**
 	 * The `--access` option can be set like so:
 	 */
 	access: `restricted`,
 };
 
-npmDeployGitTag(config)
-  .then(output => { /* Package successfully deployed to an npm registry. */ })
-  .catch(error => { /* Do any exception handling here. */ });
+try {
+	const result = await npmDeployGitTag(config);
+	/* Package successfully deployed to an npm registry. */
+} catch (error) {
+	/* Do any exception handling here. */
+}
 ```
 
 ### CLI Options
 
 The following CLI options are supported and can be passed to `@hutson/npm-deploy-git-tag`:
+
+**[--help]**
+
+Help on using the CLI.
+
+```bash
+$(yarn bin)/npm-deploy-git-tag --help
+```
 
 **[--access <public|restricted>]** - Documentation available on [npm website](https://docs.npmjs.com/cli/publish).
 
@@ -152,7 +161,6 @@ deploy:
 	only:
 		- tags
 	script:
-		- # build step
 		- $(yarn bin)/npm-deploy-git-tag
 ```
 
