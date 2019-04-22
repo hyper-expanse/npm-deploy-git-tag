@@ -176,9 +176,13 @@ It's possible to deploy your package to any `npm`-compatible registry, not just 
 
 Alternative registries may include on-premise solutions such as [Artifactory](https://www.jfrog.com/artifactory/) and [npm enterprise](https://www.npmjs.com/enterprise).
 
+## Security Disclosure Policy
+
+To report a security vulnerability in this package, or one of it's dependencies, please use the [Tidelift security contact](https://tidelift.com/security) page. Tidelift will coordinate the process to address the vulnerability and disclose the incident to our users.
+
 ## Professional Support
 
-[Professional support for `@hutson/semantic-delivery-gitlab` is available with a Tidelift Subscription](https://tidelift.com/subscription/pkg/npm--hutson-npm-deploy-git-tag?utm_source=npm--hutson-npm-deploy-git-tag&utm_medium=referral&utm_campaign=readme).
+[Professional support for `@hutson/npm-deploy-git-tag` is available with a Tidelift Subscription](https://tidelift.com/subscription/pkg/npm--hutson-npm-deploy-git-tag?utm_source=npm--hutson-npm-deploy-git-tag&utm_medium=referral&utm_campaign=readme).
 
 Tidelift helps make open source sustainable for maintainers while giving companies assurances about security, maintenance, and licensing for their dependencies.
 
