@@ -176,6 +176,12 @@ It's possible to deploy your package to any `npm`-compatible registry, not just 
 
 Alternative registries may include on-premise solutions such as [Artifactory](https://www.jfrog.com/artifactory/) and [npm enterprise](https://www.npmjs.com/enterprise).
 
+## Professional Support
+
+[Professional support for `@hutson/semantic-delivery-gitlab` is available with a Tidelift Subscription](https://tidelift.com/subscription/pkg/npm--hutson-npm-deploy-git-tag?utm_source=npm--hutson-npm-deploy-git-tag&utm_medium=referral&utm_campaign=readme).
+
+Tidelift helps make open source sustainable for maintainers while giving companies assurances about security, maintenance, and licensing for their dependencies.
+
 ## Debugging
 
 To assist users of `@hutson/npm-deploy-git-tag` with debugging the behavior of this module we use the [debug](https://www.npmjs.com/package/debug) utility package to print information about the deploy process to the console. To enable debug message printing, the environment variable `DEBUG`, which is the variable used by the `debug` package, must be set to a value configured by the package containing the debug messages to be printed.
