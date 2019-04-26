@@ -127,6 +127,22 @@ $(yarn bin)/npm-deploy-git-tag --skip-token
 
 You may already have your `.npmrc` configuration file setup with the proper authentication for your npm registry, or your npm registry may not require authentication for deploying (such as local, offline, registries commonly used for testing).
 
+**[--tag <tag>]**
+
+Specify the [distribution tag](https://docs.npmjs.com/cli/dist-tag) to use as an alias for the deployed package.
+
+```bash
+$(yarn bin)/npm-deploy-git-tag --tag next
+```
+
+In this example, the package will be deployed to the `npm`-compatible registry, and the published package will be pointed at by the `next` distribution tag.
+
+Once deployed, you can install the deployment using the tag name:
+
+```bash
+yarn add package-name@next
+```
+
 ### How the Deploy Happens
 
 First step of `@hutson/npm-deploy-git-tag` is to get the latest git tag on the current branch for your project and treat it as a [semantically valid version number](http://semver.org/). With the version number in hand, we write the version number to the `version` field within your project's `package.json` file. Writing the version number to your project's `package.json` allows us to deploy your package regardless of how you tag, or otherwise, update, your project's version.

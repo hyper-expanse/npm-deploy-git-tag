@@ -12,14 +12,14 @@ module.exports = deployGitTag(shell);
 module.exports.deployGitTag = deployGitTag;
 
 function deployGitTag (shell) {
-  return async ({ access, skipToken } = {}) => {
+  return async ({ access, skipToken, tag } = {}) => {
     const tags = await gitSemverTags();
     if (tags.length === 0) {
       throw new Error(`No valid semantic version tag available for deploying.`);
     }
     await updateVersion(tags[0]);
     skipToken || setToken();
-    await deploy({ access });
+    await deploy({ access, tag });
   };
 
   async function updateVersion (version) {
@@ -36,11 +36,15 @@ function deployGitTag (shell) {
     setNpmAuthTokenForCI();
   }
 
-  function deploy ({ access }) {
+  function deploy ({ access, tag }) {
     let command = `npm publish`;
 
     if (typeof access === `string`) {
       command += ` --access ${access}`;
+    }
+
+    if (typeof tag === `string`) {
+      command += ` --tag ${tag}`;
     }
 
     debug(`executing 'publish' command - ${command}`);

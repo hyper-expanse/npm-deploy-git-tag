@@ -123,10 +123,18 @@ describe(`npm-deploy-git-tag`, function () {
       });
     });
 
-    it(`can set access level for package'`, async function () {
+    it(`can set access level for deployment'`, async function () {
       this.execStub.withArgs(`npm publish --access restricted`).returns({ code: 0 });
 
       await this.wrapped({ access: `restricted` });
+
+      expect(this.execStub).to.have.been.calledOnce;
+    });
+
+    it(`can set distribution tag for deployment'`, async function () {
+      this.execStub.withArgs(`npm publish --tag next`).returns({ code: 0 });
+
+      await this.wrapped({ tag: `next` });
 
       expect(this.execStub).to.have.been.calledOnce;
     });
