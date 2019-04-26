@@ -65,21 +65,21 @@
   },
   "version": "1.0.0",
   "dependencies": {
-    "@hutson/set-npm-auth-token-for-ci": "^3.0.0",
+    "@hutson/set-npm-auth-token-for-ci": "^4.0.2",
     "commander": "^2.9.0",
     "git-semver-tags": "^2.0.2",
     "is-scoped": "^2.1.0",
-    "read-pkg": "^5.0.0",
+    "read-pkg": "^5.1.0",
     "shelljs": "^0.8.0",
     "write-pkg": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^4.0.2",
     "debug": "^4.0.0",
-    "mocha": "^6.0.0",
-    "nyc": "^13.0.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
     "semistandard": "^13.0.1",
-    "sinon": "^7.0.0",
+    "sinon": "^7.3.2",
     "sinon-chai": "^3.0.0",
     "tmp": "^0.1.0"
   }
