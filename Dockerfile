@@ -26,4 +26,4 @@ RUN yarn global add file:/tmp/npm-deploy-git-tag/
 # Command to execute within the Docker container when executed by `docker run`, and unless overriden by `--entrypoint`.
 # This command causes the container to automatically run the npm deploy tool, `npm-deploy-git-tag`, within the working directory.
 # We assume the contents of a project, including it's `.git` directory, has been mounted inside of the container at the `WORKDIR` specified above.
-ENTRYPOINT ["npm-deploy-git-tag"]
+ENTRYPOINT exec npm-deploy-git-tag --token ${NPM_TOKEN}

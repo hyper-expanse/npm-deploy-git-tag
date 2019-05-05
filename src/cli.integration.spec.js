@@ -80,28 +80,11 @@ describe(`npm-deploy-git-tag CLI`, function () {
       expect(cliResponse.stderr).to.have.string(`Error: No valid semantic version tag available for deploying.`);
     });
 
-    it(`returns a non-zero code when there is no environment variable NPM_TOKEN`, function () {
-      runNPreparations(4);
-
-      const oldToken = process.env.NPM_TOKEN;
-      delete process.env.NPM_TOKEN;
-
-      const cliResponse = shell.exec(`node ${this.binPath}`);
-      expect(cliResponse.code).to.be.a('number').and.to.equal(1);
-      expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
-      expect(cliResponse.stderr).to.have.string(`Error: Cannot find NPM_TOKEN set in your environment.`);
-
-      process.env.NPM_TOKEN = oldToken;
-    });
-
     it(`returns a non-zero code when npm can't authenticate with the registry`, function () {
       // TODO: We should avoid hitting the actual npm registry.
       runNPreparations(4);
 
-      const oldToken = process.env.NPM_TOKEN;
-      process.env.NPM_TOKEN = `INVALID`;
-
-      const cliResponse = shell.exec(`node ${this.binPath}`);
+      const cliResponse = shell.exec(`node ${this.binPath} --token token`);
       expect(cliResponse.code).to.be.a('number').and.to.equal(1);
 
       /**
@@ -109,16 +92,14 @@ describe(`npm-deploy-git-tag CLI`, function () {
        * Please see - https://github.com/shelljs/shelljs/pull/892
        * expect(cliResponse.stderr).to.have.string(`npm-deploy-git-tag failed for the following reason`);
        */
-
-      process.env.NPM_TOKEN = oldToken;
     });
   });
 
   describe(`when deploying succeeds for un-scoped package`, () => {
-    it.skip(`deploys successfully when skipping token`);
+    it.skip(`deploys successfully`);
   });
 
   describe(`when deploying succeeds for scoped package`, () => {
-    it.skip(`deploys successfully when skipping token`);
+    it.skip(`deploys successfully`);
   });
 });

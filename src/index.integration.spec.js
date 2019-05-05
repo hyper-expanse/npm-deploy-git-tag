@@ -28,9 +28,6 @@ describe(`npm-deploy-git-tag`, function () {
     this.tmpDir = tmp.dirSync();
     process.chdir(this.tmpDir.name);
 
-    this.oldToken = process.env.NPM_TOKEN;
-    process.env.NPM_TOKEN = `token`;
-
     // Default `package.json` file for our publish pipeline to write a version into.
     fs.writeFileSync(`package.json`, `{ "name": "test", "version": "0.0.0" }`);
 
@@ -52,8 +49,18 @@ describe(`npm-deploy-git-tag`, function () {
   });
 
   afterEach(function () {
-    process.env.NPM_TOKEN = this.oldToken;
     process.chdir(this.cwd);
+  });
+
+  it(`fails if there are no semantic version tags available`, async function () {
+    try {
+      await this.wrapped({ token: `token` });
+    } catch (error) {
+      expect(error.message).to.equal(`No valid semantic version tag available for deploying.`);
+      return;
+    }
+
+    throw new Error();
   });
 
   describe(`existing tag`, () => {
@@ -61,10 +68,23 @@ describe(`npm-deploy-git-tag`, function () {
       shell.exec(`git tag 1.0.0`);
     });
 
+    it(`errors out if the publish fails`, async function () {
+      this.execStub.withArgs(`npm publish`).returns({ code: 1, stderr: `Failed` });
+
+      try {
+        await this.wrapped({ token: `token` });
+      } catch (error) {
+        expect(error.message).to.equal(`Failed`);
+        return;
+      }
+
+      throw new Error();
+    });
+
     it(`writes last git tag to 'package.json'`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      await this.wrapped();
+      await this.wrapped({ token: `token` });
       const packageContent = JSON.parse(fs.readFileSync(`package.json`));
 
       expect(packageContent.name).to.equal(`test`);
@@ -75,7 +95,7 @@ describe(`npm-deploy-git-tag`, function () {
     it(`augments '.npmrc' with authentication placeholder`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      await this.wrapped();
+      await this.wrapped({ token: `token` });
       const npmrcContent = fs.readFileSync(`.npmrc`);
 
       expect(npmrcContent.toString()).to.contain(`:_authToken=\${NPM_TOKEN}\n`);
@@ -91,12 +111,10 @@ describe(`npm-deploy-git-tag`, function () {
        * TODO: This particular case should fail. We should not attempt to publish a commit with
        * a previous commit's tag.
        */
-      it.skip(`should fail`);
-
       it(`writes last git tag to 'package.json' but publishes current commit`, async function () {
         this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-        await this.wrapped();
+        await this.wrapped({ token: `token` });
         const packageContent = JSON.parse(fs.readFileSync(`package.json`));
 
         expect(packageContent.name).to.equal(`test`);
@@ -114,7 +132,7 @@ describe(`npm-deploy-git-tag`, function () {
       it(`writes tag pointing at the current commit to 'package.json'`, async function () {
         this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-        await this.wrapped();
+        await this.wrapped({ token: `token` });
         const packageContent = JSON.parse(fs.readFileSync(`package.json`));
 
         expect(packageContent.name).to.equal(`test`);
@@ -126,7 +144,7 @@ describe(`npm-deploy-git-tag`, function () {
     it(`can set access level for deployment'`, async function () {
       this.execStub.withArgs(`npm publish --access restricted`).returns({ code: 0 });
 
-      await this.wrapped({ access: `restricted` });
+      await this.wrapped({ access: `restricted`, token: `token` });
 
       expect(this.execStub).to.have.been.calledOnce;
     });
@@ -134,15 +152,15 @@ describe(`npm-deploy-git-tag`, function () {
     it(`can set distribution tag for deployment'`, async function () {
       this.execStub.withArgs(`npm publish --tag next`).returns({ code: 0 });
 
-      await this.wrapped({ tag: `next` });
+      await this.wrapped({ tag: `next`, token: `token` });
 
       expect(this.execStub).to.have.been.calledOnce;
     });
 
-    it(`does not augment '.npmrc' with authentication placeholder when skipping token authentication`, async function () {
+    it(`does not augment '.npmrc' with authentication placeholder if a token is not provided`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      await this.wrapped({ skipToken: true });
+      await this.wrapped();
       const npmrcContent = fs.readFileSync(`.npmrc`);
 
       expect(npmrcContent.toString()).to.equal(``);
@@ -183,7 +201,7 @@ describe(`npm-deploy-git-tag`, function () {
     it(`should publish patch version using latest tag on the current branch`, async function () {
       this.execStub.withArgs(`npm publish`).returns({ code: 0 });
 
-      await this.wrapped();
+      await this.wrapped({ token: `token` });
       const packageContent = JSON.parse(fs.readFileSync(`package.json`));
 
       expect(packageContent.name).to.equal(`test`);

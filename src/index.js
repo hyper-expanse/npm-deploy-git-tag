@@ -12,14 +12,17 @@ module.exports = deployGitTag(shell);
 module.exports.deployGitTag = deployGitTag;
 
 function deployGitTag (shell) {
-  return async ({ access, skipToken, tag } = {}) => {
+  return async ({ access, tag, token } = {}) => {
     const tags = await gitSemverTags();
     if (tags.length === 0) {
       throw new Error(`No valid semantic version tag available for deploying.`);
     }
+
     await updateVersion(tags[0]);
-    skipToken || setToken();
-    await deploy({ access, tag });
+
+    (typeof token === `string`) && setNpmAuthTokenForCI();
+
+    await deploy({ access, tag, token });
   };
 
   async function updateVersion (version) {
@@ -29,15 +32,9 @@ function deployGitTag (shell) {
     await writePkg(Object.assign(packageMeta, { version }));
   }
 
-  function setToken () {
-    if (!process.env.NPM_TOKEN) {
-      throw new Error(`Cannot find NPM_TOKEN set in your environment.`);
-    }
-    setNpmAuthTokenForCI();
-  }
-
-  function deploy ({ access, tag }) {
+  function deploy ({ access, tag, token }) {
     let command = `npm publish`;
+    const env = {};
 
     if (typeof access === `string`) {
       command += ` --access ${access}`;
@@ -47,8 +44,12 @@ function deployGitTag (shell) {
       command += ` --tag ${tag}`;
     }
 
+    if (typeof token === `string`) {
+      env.NPM_TOKEN = token;
+    }
+
     debug(`executing 'publish' command - ${command}`);
-    const result = shell.exec(command, { silent: true });
+    const result = shell.exec(command, { silent: true }, { env });
 
     if (result.code !== 0) {
       throw new Error(result.stderr);

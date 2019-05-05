@@ -12,15 +12,15 @@ program
   .description(pkg.description)
   .version(pkg.version)
   .option(`-a, --access <access>`, `deploy as [public] or [restricted]`, /^(public|restricted)$/i, `restricted`)
-  .option(`-s, --skip-token`, `skip the authentication step`)
-  .option(`-t, --tag`, `npm distribution tag to point at the deployed package`)
+  .option(`-t, --tag <tag>`, `npm distribution tag to point at the deployed package`)
+  .option(`--token <token>`, `authentication token for publishing to the package registry`)
   .parse(process.argv);
 
 (async () => {
   try {
     const { name } = await readPkg();
     const scoped = isScoped(name);
-    await npmDeployGitTag({ access: scoped ? program.access : `public`, skipToken: program.skipToken, tag: program.tag });
+    await npmDeployGitTag({ access: scoped ? program.access : `public`, tag: program.tag, token: program.token });
   } catch (error) {
     console.error(`npm-deploy-git-tag failed for the following reason - ${error}`);
     process.exit(1);

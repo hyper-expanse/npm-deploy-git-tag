@@ -19,7 +19,6 @@ By automating these steps `@hutson/npm-deploy-git-tag` alleviates some of the ov
 - [Usage](#usage)
   - [CLI Options](#cli-options)
   - [How the Deploy Happens](#how-the-deploy-happens)
-  - [Required Environment Variable](#required-environment-variable)
   - [Continuous Integration and Delivery (CID) Setup](#continuous-integration-and-delivery-cid-setup)
 - [Deploying Elsewhere Besides Public npm Registry](#deploying-elsewhere-besides-public-npm-registry)
 - [Security Disclosure Policy](#security-disclosure-policy)
@@ -32,7 +31,7 @@ By automating these steps `@hutson/npm-deploy-git-tag` alleviates some of the ov
 
 ## Features
 
-* [x] Get latest tag from current project using [git-latest-semver-tag](https://www.npmjs.com/package/git-latest-semver-tag).
+* [x] Get latest tag from current project using [git-semver-tags](https://www.npmjs.com/package/git-semver-tags).
 * [x] Write the version number to the project's `package.json` file using [read-pkg](https://www.npmjs.com/package/read-pkg) and [write-pkg](https://www.npmjs.com/package/write-pkg).
 * [x] Deploy package to an `npm`-compatible registry with [set-npm-auth-token-for-ci](https://www.npmjs.com/package/set-npm-auth-token-for-ci).
 
@@ -46,8 +45,6 @@ yarn add [--dev] @hutson/npm-deploy-git-tag
 
 ## Usage
 
-Setup the environment variable described in the _Required Environment Variable_ section.
-
 There are two ways to use `@hutson/npm-deploy-git-tag`, either as a CLI tool, or programmatically.
 
 To learn how `@hutson/npm-deploy-git-tag` can be used to automatically deploy your project after you've pushed new changes to your repository, please see the _Continuous Integration and Delivery (CID) Setup_ section below.
@@ -57,7 +54,7 @@ To learn how `@hutson/npm-deploy-git-tag` can be used to automatically deploy yo
 Call `@hutson/npm-deploy-git-tag` from within your project's top folder:
 
 ```bash
-$(yarn bin)/npm-deploy-git-tag
+$(yarn bin)/npm-deploy-git-tag --token ${NPM_TOKEN}
 ```
 
 **Programmatically**
@@ -71,14 +68,14 @@ const config = {
 	 */
 
 	/**
-	 * The `--skip-token` option can be set like so:
-	*/
-	skipToken: true,
-
-	/**
 	 * The `--access` option can be set like so:
 	 */
 	access: `restricted`,
+
+	/**
+	 * The `--token` option can be set like so:
+	 */
+	token: `token`,
 };
 
 try {
@@ -143,21 +140,25 @@ Once deployed, you can install the deployment using the tag name:
 yarn add package-name@next
 ```
 
+**[--token <token>]**
+
+If the `npm`-compatible registry does not require authentication (such as a local, offline, registry, or a registry used exclusively for testing), or you have already setup your project's, or CI's, `.npmrc` configuration file with the proper authentication, then you do not need to set the `--token` option.
+
+Otherwise, to deploy a package to an `npm`-compatible registry you must set the `--token` option with a valid [npm token](http://blog.npmjs.org/post/118393368555/deploying-with-npm-private-modules).
+
+The account associated with the npm token may own, or co-own, the package on the `npm`-compatible registry for the deploy task to succeed. It may also succeed if the package does not already exist on the `npm`-compatible registry.
+
+```bash
+$(yarn bin)/npm-deploy-git-tag --token ${NPM_TOKEN}
+```
+
 ### How the Deploy Happens
 
 First step of `@hutson/npm-deploy-git-tag` is to get the latest git tag on the current branch for your project and treat it as a [semantically valid version number](http://semver.org/). With the version number in hand, we write the version number to the `version` field within your project's `package.json` file. Writing the version number to your project's `package.json` allows us to deploy your package regardless of how you tag, or otherwise, update, your project's version.
 
-Once your project's `package.json` file has been updated, we take the `NPM_TOKEN` environment variable, which should be exposed within your environment as specified in the _Required Environment Variable_ section, and write its value out to the user's global `.npmrc` file.
+Once your project's `package.json` file has been updated, if you have specified the `--token` option, we update the local, or globa, `.npmrc` file to use the token (By setting the `NPM_TOKEN` environment variable within the publishing process).
 
 Lastly, `@hutson/npm-deploy-git-tag` deploys your package to either the authoritative npm registry, or an alternative `npm`-compatible registry (Please see _Publishing Elsewhere Besides Public npm Registry_ to learn how to use an alternative registry).
-
-### Required Environment Variable
-
-For `@hutson/npm-deploy-git-tag` to deploy a package to an `npm`-compatible registry an [npm token](http://blog.npmjs.org/post/118393368555/deploying-with-npm-private-modules) must be setup within your environment.
-
-**Environment variable name** - `NPM_TOKEN`
-
-The account associated with the npm token must own, or co-own, the package on the `npm`-compatible registry for the deploy task to succeed. It will also succeed if the package does not already exist on the `npm`-compatible registry.
 
 ### Continuous Integration and Delivery (CID) Setup
 
@@ -179,14 +180,12 @@ deploy:
 	only:
 		- tags
 	script:
-		- $(yarn bin)/npm-deploy-git-tag
+		- $(yarn bin)/npm-deploy-git-tag --token ${NPM_TOKEN}
 ```
 
-`@hutson/npm-deploy-git-tag` works well with tools like [semantic-release-gitlab](https://www.npmjs.com/package/semantic-release-gitlab). `semantic-release-gitlab` creates a git tag based on unreleased commits and pushes that tag to GitLab. Assuming the setup above, once the tag has been pushed to GitLab, your project's `deploy` job would execute, and `@hutson/npm-deploy-git-tag` would deploy your package to your desired `npm`-compatible registry.
+`@hutson/npm-deploy-git-tag` works well with tools like [`@hutson/semantic-delivery-gitlab`](https://www.npmjs.com/package/@hutson/semantic-delivery-gitlab). `@hutson/semantic-delivery-gitlab` creates a git tag based on unreleased commits and pushes that tag to GitLab. Assuming the setup above, once the tag has been pushed to GitLab, your project's `deploy` job would execute, and `@hutson/npm-deploy-git-tag` would deploy your package to your desired `npm`-compatible registry.
 
 Full documentation for GitLab CI is available on the [GitLab CI](http://docs.gitlab.com/ce/ci/yaml/README.html) site.
-
-You may also take a look at our [.gitlab-ci.yml](https://gitlab.com/hyper-expanse/open-source/@hutson/npm-deploy-git-tag/blob/master/.gitlab-ci.yml) file as an example.
 
 ## Deploying Elsewhere Besides Public npm Registry
 
