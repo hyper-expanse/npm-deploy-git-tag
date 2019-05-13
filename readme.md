@@ -114,16 +114,6 @@ npm ERR! code E402
 npm ERR! "You must sign up for private packages" : @scope/example-package
 ```
 
-**[--skip-token]**
-
-Allows you to deploy an npm package without requiring you to set an `NPM_TOKEN` environment variable containing your npm authentication token.
-
-```bash
-$(yarn bin)/npm-deploy-git-tag --skip-token
-```
-
-You may already have your `.npmrc` configuration file setup with the proper authentication for your npm registry, or your npm registry may not require authentication for deploying (such as local, offline, registries commonly used for testing).
-
 **[--tag <tag>]**
 
 Specify the [distribution tag](https://docs.npmjs.com/cli/dist-tag) to use as an alias for the deployed package.
