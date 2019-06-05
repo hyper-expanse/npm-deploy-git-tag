@@ -54,7 +54,10 @@
       ":gitSignOff",
       ":automergeMinor",
       ":preserveSemverRanges"
-    ]
+    ],
+    "docker": {
+      "pinDigests": true
+    }
   },
   "repository": {
     "type": "git",
