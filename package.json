@@ -2,10 +2,10 @@
   "author": {
     "name": "Hutson Betts",
     "email": "hutson@hyper-expanse.net",
-    "url": "https://gitlab.com/hutson"
+    "url": "https://hyper-expanse.net/hutson"
   },
   "bin": "./src/cli.js",
-  "bugs": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag/issues",
+  "bugs": "https://github.com/hyper-expanse/npm-deploy-git-tag/issues",
   "description": "Deploy a package to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
     "node": ">=8.9.0"
@@ -13,7 +13,7 @@
   "files": [
     "src/**/!(*.spec).js"
   ],
-  "homepage": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag#readme",
+  "homepage": "https://github.com/hyper-expanse/npm-deploy-git-tag#readme",
   "keywords": [
     "npm",
     "deploy",
@@ -61,7 +61,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag.git"
+    "url": "https://github.com/hyper-expanse/npm-deploy-git-tag.git"
   },
   "scripts": {
     "test": "semistandard 'src/**/*.js' && nyc mocha src/**/*.spec.js"

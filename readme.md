@@ -226,4 +226,4 @@ JavaScript package managers should allow you to install this package with any ve
 
 ## Contributing
 
-Please read our [contributing guide](https://gitlab.com/hyper-expanse/open-source/npm-deploy-git-tag/blob/master/CONTRIBUTING.md) to see how you may contribute to this project.
+Please read our [contributing guide](https://github.com/hyper-expanse/npm-deploy-git-tag/blob/master/contributing.md) to see how you may contribute to this project.
