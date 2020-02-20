@@ -1,5 +1,5 @@
 # Use Alpine Linux as our base image so that we minimize the size our final container and minimize the surface area of packages that could be out of date.
-FROM node:10.19.0-alpine@sha256:ca59a7a6abfdfe8f2fb62b14c24be5eac33a0acda20fd3d5e5bf2a942de57bad
+FROM node:10.19.0-alpine@sha256:5498d6cb4d240644bfbef7de4a0b61769cc0ebc31a34183512bdfd0f73cf3692
 
 # Container metadata describing the image, where it's configuration is housed, and its maintainer.
 LABEL description="Docker image for executing `@hutson/npm-deploy-git-tag`."
