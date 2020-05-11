@@ -8,7 +8,7 @@
   "bugs": "https://github.com/hyper-expanse/npm-deploy-git-tag/issues",
   "description": "Deploy a package to an `npm`-compatible registry using the latest git tag from that package's repository.",
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10.13.0"
   },
   "files": [
     "src/**/!(*.spec).js"
