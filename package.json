@@ -68,7 +68,7 @@
   },
   "version": "1.0.0",
   "dependencies": {
-    "@hutson/set-npm-auth-token-for-ci": "^4.0.2",
+    "@hutson/set-npm-auth-token-for-ci": "^5.0.0",
     "commander": "^5.0.0",
     "git-semver-tags": "^2.0.2",
     "is-scoped": "^2.1.0",
