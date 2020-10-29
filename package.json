@@ -81,7 +81,7 @@
     "debug": "^4.0.0",
     "mocha": "^8.0.0",
     "nyc": "^15.0.0",
-    "semistandard": "^14.0.0",
+    "semistandard": "^15.0.0",
     "sinon": "^9.0.0",
     "sinon-chai": "^3.0.0",
     "tmp": "^0.2.0"
